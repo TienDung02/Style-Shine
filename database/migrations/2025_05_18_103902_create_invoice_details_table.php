@@ -14,12 +14,11 @@ return new class extends Migration
         Schema::dropIfExists('invoice_details');
         Schema::create('invoice_details', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_invoice', 50);
-            $table->unsignedBigInteger('id_product', 50);
+            $table->unsignedBigInteger('id_invoice');
+            $table->unsignedBigInteger('id_product');
             $table->integer('quality');
             $table->foreign('id_invoice')->references('id')->on('invoices');
             $table->foreign('id_product')->references('id_product')->on('products');
-//            $table->primary(['id_invoice', 'id_product']);
             $table->timestamps();
         });
     }
