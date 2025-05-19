@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->decimal('total_price', 10, 2);
             $table->string('payment_method');
-            $table->string('customer_id')->default(1);
+            $table->unsignedBigInteger('customer_id')->default(1);
             $table->foreign('customer_id')->references('id')->on('customers');
             $table->timestamps();
         });
