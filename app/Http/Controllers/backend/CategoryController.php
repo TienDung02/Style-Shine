@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\backend;
 
-class profileController
+class CategoryController
 {
     public function index()
     {
-        return view('backend.pages-profile');
+        return view('backend.category.index');
     }
 }

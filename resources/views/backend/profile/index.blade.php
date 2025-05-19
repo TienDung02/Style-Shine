@@ -1,36 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <!-- Tell the browser to be responsive to screen width -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="{{asset('/backend/images/uploads/logo2.png')}}">
-    <title>Material Pro Admin Template - The Most Complete & Trusted Bootstrap 4 Admin Template</title>
-    <!-- Bootstrap Core CSS -->
-    <link href="{{asset('/backend/assets/plugins/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
-    <!-- chartist CSS -->
-    <link href="{{asset('/backend/assets/plugins/chartist-js/dist/chartist.min.css')}}" rel="stylesheet">
-    <link href="{{asset('/backend/assets/plugins/chartist-js/dist/chartist-init.css')}}" rel="stylesheet">
-    <link href="{{asset('/backend/assets/plugins/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.css')}}" rel="stylesheet">
-    <!--This page css - Morris CSS -->
-    <link href="{{asset('/backend/assets/plugins/c3-master/c3.min.css')}}" rel="stylesheet">
-    <!-- Custom CSS -->
-    <link href="{{asset('/backend/css/style.css')}}" rel="stylesheet">
-    <!-- You can change the theme colors from here -->
-    {{--    <link href="../../../../../../../HK10/NT208/FE/template/css/colors/blue.css" id="theme" rel="stylesheet">--}}
-    <link href="{{asset('/backend/css/colors/blue.css')}}" id="theme" rel="stylesheet">
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-</head>
+@extends('backend.layouts.layout')
+@section('content')
 
 <body class="fix-header fix-sidebar card-no-border">
     <!-- ============================================================== -->
@@ -53,7 +22,7 @@
                 <!-- Logo -->
                 <!-- ============================================================== -->
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="dashboard/index.blade.php">
+                    <a class="navbar-brand" href="../dashboard/index.blade.php">
                         <!-- Logo icon --><b>
                             <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
 
@@ -104,41 +73,7 @@
         <!-- ============================================================== -->
         <!-- Left Sidebar - style you can find in sidebar.scss  -->
         <!-- ============================================================== -->
-        <aside class="left-sidebar">
-            <!-- Sidebar scroll-->
-            <div class="scroll-sidebar">
-                <!-- Sidebar navigation-->
-                <nav class="sidebar-nav">
-                    <ul id="sidebarnav">
-                        <li> <a class="waves-effect waves-dark" href="dashboard/index.blade.php" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Dashboard</span></a>
-                        </li>
-                        <li> <a class="waves-effect waves-dark" href="pages-profile.html" aria-expanded="false"><i class="mdi mdi-account-check"></i><span class="hide-menu">Profile</span></a>
-                        </li>
-                        <li> <a class="waves-effect waves-dark" href="table-basic.blade.php" aria-expanded="false"><i class="mdi mdi-table"></i><span class="hide-menu">Basic Table</span></a>
-                        </li>
-                        <li> <a class="waves-effect waves-dark" href="material/icon-material.html" aria-expanded="false"><i class="mdi mdi-emoticon"></i><span class="hide-menu">Icons</span></a>
-                        </li>
-                        <li> <a class="waves-effect waves-dark" href="map-google.html" aria-expanded="false"><i class="mdi mdi-earth"></i><span class="hide-menu">Google Map</span></a>
-                        </li>
-                        <li> <a class="waves-effect waves-dark" href="blank/pages-blank.html" aria-expanded="false"><i class="mdi mdi-book-open-variant"></i><span class="hide-menu">Blank Page</span></a>
-                        </li>
-                        <li> <a class="waves-effect waves-dark" href="404/pages-error-404.html" aria-expanded="false"><i class="mdi mdi-help-circle"></i><span class="hide-menu">Error 404</span></a>
-                        </li>
-                    </ul>
-                    <div class="text-center m-t-30">
-                        <a href="https://themewagon.com/themes/material-bootstrap-4-free-admin-template/" class="btn waves-effect waves-light btn-warning hidden-md-down">Download Now</a>
-                    </div>
-                </nav>
-                <!-- End Sidebar navigation -->
-            </div>
-            <!-- End Sidebar scroll-->
-            <!-- Bottom points-->
-            <div class="sidebar-footer">
-                <!-- item--><a href="" class="link" data-toggle="tooltip" title="Settings"><i class="ti-settings"></i></a>
-                <!-- item--><a href="" class="link" data-toggle="tooltip" title="Email"><i class="mdi mdi-gmail"></i></a>
-                <!-- item--><a href="" class="link" data-toggle="tooltip" title="Logout"><i class="mdi mdi-power"></i></a> </div>
-            <!-- End Bottom points-->
-        </aside>
+        @include(".backend.component.left-sidebar")
         <!-- ============================================================== -->
         <!-- End Left Sidebar - style you can find in sidebar.scss  -->
         <!-- ============================================================== -->
@@ -161,9 +96,6 @@
                             <li class="breadcrumb-item active">Profile</li>
                         </ol>
                     </div>
-                    <div class="col-md-7 col-4 align-self-center">
-                        <a href="https://themewagon.com/themes/material-bootstrap-4-free-admin-template/" class="btn waves-effect waves-light btn-danger pull-right hidden-sm-down">Download Now</a>
-                    </div>
                 </div>
                 <!-- ============================================================== -->
                 <!-- End Bread crumb and right sidebar toggle -->
@@ -177,7 +109,7 @@
                     <div class="col-lg-4 col-xlg-3 col-md-5">
                         <div class="card">
                             <div class="card-block">
-                                <center class="m-t-30"> <img src="../../../../../../../HK10/NT208/FE/template/assets/images/users/5.jpg" class="img-circle" width="150" />
+                                <center class="m-t-30"> <img src="{{asset("backend/assets/images/users/5.jpg")}}" class="img-circle" width="150" />
                                     <h4 class="card-title m-t-10">Hanna Gover</h4>
                                     <h6 class="card-subtitle">Accoubts Manager Amix corp</h6>
                                     <div class="row text-center justify-content-md-center">
@@ -269,50 +201,4 @@
         <!-- End Page wrapper  -->
         <!-- ============================================================== -->
     </div>
-    <!-- ============================================================== -->
-    <!-- End Wrapper -->
-    <!-- ============================================================== -->
-    <!-- ============================================================== -->
-    <!-- All Jquery -->
-    <!-- ============================================================== -->
-    <script src="{{asset('/backend/assets/plugins/jquery/jquery.min.js')}}"></script>
-    <!-- Bootstrap tether Core JavaScript -->
-    {{--    <script src="../../../../../../../HK10/NT208/FE/template/assets/plugins/bootstrap/js/tether.min.js"></script>--}}
-    <script src="{{asset('/backend/assets/plugins/bootstrap/js/tether.min.js')}}"></script>
-
-    {{--    <script src="../../../../../../../HK10/NT208/FE/template/assets/plugins/bootstrap/js/bootstrap.min.js"></script>--}}
-    <script src="{{asset('/backend/assets/plugins/bootstrap/js/bootstrap.min.js')}}"></script>
-    <!-- slimscrollbar scrollbar JavaScript -->
-    {{--    <script src="../../../../../../../HK10/NT208/FE/template/js/jquery.slimscroll.js"></script>--}}
-    <script src="{{asset('/backend/js/jquery.slimscroll.js')}}"></script>
-    <!--Wave Effects -->
-    {{--    <script src="../../../../../../../HK10/NT208/FE/template/js/waves.js"></script>--}}
-    <script src="{{asset('/backend/js/waves.js')}}"></script>
-    <!--Menu sidebar -->
-    {{--    <script src="../../../../../../../HK10/NT208/FE/template/js/sidebarmenu.js"></script>--}}
-    <script src="{{asset('/backend/js/sidebarmenu.js')}}"></script>
-    <!--stickey kit -->
-    {{--    <script src="../../../../../../../HK10/NT208/FE/template/assets/plugins/sticky-kit-master/dist/sticky-kit.min.js"></script>--}}
-    <script src="{{asset('/backend/assets/plugins/sticky-kit-master/dist/sticky-kit.min.js')}}"></script>
-    <!--Custom JavaScript -->
-    {{--    <script src="../../../../../../../HK10/NT208/FE/template/js/custom.min.js"></script>--}}
-    <script src="{{asset('/backend/js/custom.min.js')}}"></script>
-    <!-- ============================================================== -->
-    <!-- This page plugins -->
-    <!-- ============================================================== -->
-    <!-- chartist chart -->
-    {{--    <script src="../../../../../../../HK10/NT208/FE/template/assets/plugins/chartist-js/dist/chartist.min.js"></script>--}}
-    <script src="{{asset('/backend/assets/plugins/chartist-js/dist/chartist.min.js')}}"></script>
-    {{--    <script src="../../../../../../../HK10/NT208/FE/template/assets/plugins/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.min.js"></script>--}}
-    <script src="{{asset('/backend/assets/plugins/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.min.js')}}"></script>
-    <!--c3 JavaScript -->
-    {{--    <script src="../../../../../../../HK10/NT208/FE/template/assets/plugins/d3/d3.min.js"></script>--}}
-    <script src="{{asset('/backend/assets/plugins/d3/d3.min.js')}}"></script>
-    {{--    <script src="../../../../../../../HK10/NT208/FE/template/assets/plugins/c3-master/c3.min.js"></script>--}}
-    <script src="{{asset('/backend/assets/plugins/c3-master/c3.min.js')}}"></script>
-    <!-- Chart JS -->
-    {{--    <script src="../../../../../../../HK10/NT208/FE/template/js/dashboard1.js"></script>--}}
-    <script src="{{asset('/backend/js/dashboard1.js')}}"></script>
-</body>
-
-</html>
+@endsection

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\backend;
 
-class testController
+class OrderController
 {
     public function index()
     {
-        return view('backend.material.icon');
+        return view('backend.order.index');
     }
 }
