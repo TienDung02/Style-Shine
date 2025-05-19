@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::dropIfExists('invoice_details');
         Schema::create('invoice_details', function (Blueprint $table) {
             $table->id();
-            $table->string('id_invoice', 50);
-            $table->string('id_product', 50);
+            $table->unsignedBigInteger('id_invoice', 50);
+            $table->unsignedBigInteger('id_product', 50);
             $table->integer('quality');
             $table->foreign('id_invoice')->references('id')->on('invoices');
             $table->foreign('id_product')->references('id_product')->on('products');
