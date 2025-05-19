@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::dropIfExists('invoice_details');
+        Schema::dropIfExists('categories');
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->string('name', 255);
