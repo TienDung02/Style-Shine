@@ -14,36 +14,35 @@ class LoginController extends Controller
     {
         return view('auth.login.index');
     }
-//    public function login(Request $request)
-//    {
-//        $request->validate([
-//            'email' => 'required|email',
-//            'password' => 'required',
-//        ]);
-//        if (Auth::attempt($request->only('email', 'password'))) {
-//            $user = Auth::user();
-//            Session::put('user_data', [
-//                'id' => $user->id,
-//                'avatar' => $user->avatar ?? '',
-//                'name' => $user->name ?? '',
-//                'email' => $user->email ?? '',
-//            ]);
-//            Session::put('alert_', [
-//                'alert__type' => 'success',
-//                'alert__title' => 'Login success',
-//                'alert__text' => '',
-//                'alert_reload' => 'false',
-//            ]);
-//            return redirect('/');
-//        }
-//
-//    }
-//
-//    public function logout(Request $request) {
-//        Auth::logout();
-//        $request->session()->invalidate();
-//        $request->session()->regenerateToken();
-//        return redirect('/');
-//    }
+    public function login(Request $request)
+    {
+        $request->validate([
+            'username' => 'required|string',
+            'password' => 'required|string',
+        ]);
+        $credentials = $request->only('username', 'password');
+        if (Auth::guard('admin')->attempt($credentials)) {
+            Session::put('alert_', [
+                'alert__type' => 'success',
+                'alert__title' => 'login success',
+                'alert__text' => '',
+                'alert_reload' => 'success',
+            ]);
+            $request->session()->regenerate();
+            return redirect()->intended('/home');
+        }
+        Session::put('alert_login_fail', [
+            'alert__text' => 'Username or password incorrect',
+        ]);
+        return back()->withErrors([
+        ])->onlyInput('username');
+    }
+    public function logout(Request $request)
+    {
+        Auth::guard('admin')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect('/admin/login');
+    }
 
 }
