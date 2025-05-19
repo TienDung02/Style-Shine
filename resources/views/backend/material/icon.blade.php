@@ -1,29 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <!-- Tell the browser to be responsive to screen width -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="../../../../../../../HK10/NT208/FE/template/assets/images/favicon.png">
-    <title>Material Pro Admin Template - The Most Complete & Trusted Bootstrap 4 Admin Template</title>
-    <!-- Bootstrap Core CSS -->
-    <link href="../../../../../../../HK10/NT208/FE/template/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
-    <link href="../../../../../../../HK10/NT208/FE/template/css/style.css" rel="stylesheet">
-    <!-- You can change the theme colors from here -->
-    <link href="../../../../../../../HK10/NT208/FE/template/css/colors/blue.css" id="theme" rel="stylesheet">
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-<![endif]-->
-</head>
+@extends('backend.layouts.layout')
+@section('content')
 
 <body class="fix-header fix-sidebar card-no-border">
     <!-- ============================================================== -->
@@ -105,7 +81,7 @@
                     <ul id="sidebarnav">
                         <li> <a class="waves-effect waves-dark" href="../dashboard/index.blade.php" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Dashboard</span></a>
                         </li>
-                        <li> <a class="waves-effect waves-dark" href="../pages-profile.blade.php" aria-expanded="false"><i class="mdi mdi-account-check"></i><span class="hide-menu">Profile</span></a>
+                        <li> <a class="waves-effect waves-dark" href="../profile/index.blade.php" aria-expanded="false"><i class="mdi mdi-account-check"></i><span class="hide-menu">Profile</span></a>
                         </li>
                         <li> <a class="waves-effect waves-dark" href="../table-basic.blade.php" aria-expanded="false"><i class="mdi mdi-table"></i><span class="hide-menu">Basic Table</span></a>
                         </li>
@@ -2035,26 +2011,4 @@
         <!-- End Page wrapper  -->
         <!-- ============================================================== -->
     </div>
-    <!-- ============================================================== -->
-    <!-- End Wrapper -->
-    <!-- ============================================================== -->
-    <!-- ============================================================== -->
-    <!-- All Jquery -->
-    <!-- ============================================================== -->
-    <script src="../../../../../../../HK10/NT208/FE/template/assets/plugins/jquery/jquery.min.js"></script>
-    <!-- Bootstrap tether Core JavaScript -->
-    <script src="../../../../../../../HK10/NT208/FE/template/assets/plugins/bootstrap/js/tether.min.js"></script>
-    <script src="../../../../../../../HK10/NT208/FE/template/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
-    <!-- slimscrollbar scrollbar JavaScript -->
-    <script src="../../../../../../../HK10/NT208/FE/template/js/jquery.slimscroll.js"></script>
-    <!--Wave Effects -->
-    <script src="../../../../../../../HK10/NT208/FE/template/js/waves.js"></script>
-    <!--Menu sidebar -->
-    <script src="../../../../../../../HK10/NT208/FE/template/js/sidebarmenu.js"></script>
-    <!--stickey kit -->
-    <script src="../../../../../../../HK10/NT208/FE/template/assets/plugins/sticky-kit-master/dist/sticky-kit.min.js"></script>
-    <!--Custom JavaScript -->
-    <script src="../../../../../../../HK10/NT208/FE/template/js/custom.min.js"></script>
-</body>
-
-</html>
+@endsection

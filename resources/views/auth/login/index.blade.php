@@ -1,14 +1,3 @@
-<!--
-=========================================================
-Login Form Bootstrap 1
-=========================================================
-
-Product Page: https://uifresh.net
-Copyright 2021 UIFresh (https://uifresh.net)
-Coded by UIFresh
-
-=========================================================
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. -->
 <!doctype html>
 <html lang="en">
   <head>
@@ -17,8 +6,11 @@ The above copyright notice and this permission notice shall be included in all c
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/png" href="./assets/img/favicon.png">
     <!-- Bootstrap CSS -->
-{{--    <link rel="stylesheet" href="./assets/css/bootstrap.min.css">--}}
     <link rel="stylesheet" href="{{ asset("backend/css/bootstrap.min.css") }}">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-…" crossorigin="anonymous">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- FontAwesome CSS -->
     <link rel="stylesheet" href="{{ asset("backend/css/all.min.css") }}">
     <link rel="stylesheet" href="{{ asset("backend/css/uf-style.css") }}">
@@ -27,7 +19,7 @@ The above copyright notice and this permission notice shall be included in all c
   <body>
     <div class="uf-form-signin">
       <div class="text-center">
-        <a href="https://uifresh.net/"><img src="./assets/img/logo-fb.png" alt="" width="100" height="100"></a>
+        <a><img src="{{asset('backend/images/logo.jpg')}}" alt="" width="100" height="100"></a>
       <h1 class="text-white h3">Account Login</h1>
       </div>
       <form class="mt-4">
@@ -49,27 +41,16 @@ The above copyright notice and this permission notice shall be included in all c
         <div class="d-grid mb-4">
           <button type="submit" class="btn uf-btn-primary btn-lg">Login</button>
         </div>
-        <div class="d-flex mb-3">
-            <div class="dropdown-divider m-auto w-25"></div>
-            <small class="text-nowrap text-white">Or login with</small>
-            <div class="dropdown-divider m-auto w-25"></div>
-        </div>
-        <div class="uf-social-login d-flex justify-content-center">
-          <a href="#" class="uf-social-ic" title="Login with Facebook"><i class="fab fa-facebook-f"></i></a>
-          <a href="#" class="uf-social-ic" title="Login with Twitter"><i class="fab fa-twitter"></i></a>
-          <a href="#" class="uf-social-ic" title="Login with Google"><i class="fab fa-google"></i></a>
-        </div>
-        <div class="mt-4 text-center">
-          <span class="text-white">Don't have an account?</span>
-          <a href="register.html">Sign Up</a>
-        </div>
+
       </form>
     </div>
 
     <!-- JavaScript -->
 
     <!-- Separate Popper and Bootstrap JS -->
-    <script src="{{ asset("backend/js/popper.min.js") }}"></script>
-    <script src="{{ asset("backend/js/bootstrap.min.js") }}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   </body>
 </html>

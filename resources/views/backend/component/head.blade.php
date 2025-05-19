@@ -13,6 +13,5 @@
     <link href="{{asset('/backend/assets/plugins/c3-master/c3.min.css')}}" rel="stylesheet">
     <link href="{{asset('/backend/css/style.css')}}" rel="stylesheet">
     <link href="{{asset('/backend/css/colors/blue.css')}}" id="theme" rel="stylesheet">
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 </head>

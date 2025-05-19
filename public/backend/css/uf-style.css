@@ -19,7 +19,7 @@ html, body{
 body{
 	display: flex;
 	align-items: center;
-	background-image: linear-gradient( to right, #f12711, #f5af19);
+	background-image: linear-gradient(to right, #0077ff, #ffffff);
 }
 a{
 	color: #842029;
@@ -55,12 +55,12 @@ a:hover{
     background: #ffffff;
 }
 .uf-btn-primary {
-    background: #842029;
+    background: #f35d28;
     color: #fff;
 }
 
 .uf-btn-primary:hover {
-    background: #5a1118;
+    background: #af3600;
     color: #fff;
 }
 

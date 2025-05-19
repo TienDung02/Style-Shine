@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\backend;
 
-class testController
+class profileController
 {
     public function index()
     {
-        return view('backend.material.icon');
+        return view('backend.profile.index');
     }
 }
