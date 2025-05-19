@@ -20,7 +20,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->text('image_url')->nullable();
             $table->unsignedBigInteger('id_category');
-            $table->foreign('id_category')->references('id_category')->on('categories')->onDelete('cascade');
+            $table->foreign('id_category')->references('id')->on('categories')->onDelete('cascade');
             $table->string('brand')->nullable();
             $table->unsignedBigInteger('id_review')->default(1);
             $table->foreign('id_review')->references('id')->on('reviews')->onDelete('cascade');
