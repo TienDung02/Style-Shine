@@ -16,6 +16,8 @@
                 </li>
                 <li> <a class="waves-effect waves-dark" href="{{route('admin.order')}}" aria-expanded="false"><i class="bi bi-cart-check"></i><span class="hide-menu">Order</span></a>
                 </li>
+                <li> <a class="waves-effect waves-dark" href="{{route('admin.user')}}" aria-expanded="false"><i class="bi bi-person-fill"></i><span class="hide-menu">User</span></a>
+                </li>
                 <li> <a class="waves-effect waves-dark" href="map-google.html" aria-expanded="false"><i class="mdi mdi-earth"></i><span class="hide-menu">Google Map</span></a>
                 </li>
                 <li> <a class="waves-effect waves-dark" href="../blank/pages-blank.html" aria-expanded="false"><i class="mdi mdi-book-open-variant"></i><span class="hide-menu">Blank Page</span></a>
@@ -28,5 +30,5 @@
     <div class="sidebar-footer">
         <!-- item--><a href="" class="link" data-toggle="tooltip" title="Settings"><i class="ti-settings"></i></a>
         <!-- item--><a href="" class="link" data-toggle="tooltip" title="Email"><i class="mdi mdi-gmail"></i></a>
-        <!-- item--><a href="" class="link" data-toggle="tooltip" title="Logout"><i class="mdi mdi-power"></i></a> </div>
+        <!-- item--><a href="{{route("logout")}}" class="link" data-toggle="tooltip" title="Logout"><i class="mdi mdi-power"></i></a> </div>
 </aside>

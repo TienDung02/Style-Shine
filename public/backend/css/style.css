@@ -456,9 +456,6 @@ html body .text-blue {
 html body .text-purple {
   color: #7460ee; }
 
-html body .text-primary {
-  color: #7460ee; }
-
 html body .text-megna {
   color: #00897b; }
 
@@ -1038,19 +1035,19 @@ Buttons
 
 .btn-warning,
 .btn-warning.disabled {
-  background: #ffb22b;
+  background: #4fb1f2;
   -webkit-box-shadow: 0 2px 2px 0 rgba(248, 194, 0, 0.14), 0 3px 1px -2px rgba(248, 194, 0, 0.2), 0 1px 5px 0 rgba(248, 194, 0, 0.12);
   box-shadow: 0 2px 2px 0 rgba(248, 194, 0, 0.14), 0 3px 1px -2px rgba(248, 194, 0, 0.2), 0 1px 5px 0 rgba(248, 194, 0, 0.12);
-  border: 1px solid #ffb22b;
+  border: 1px solid #4fb1f2;
   -webkit-transition: 0.2s ease-in;
   -o-transition: 0.2s ease-in;
   transition: 0.2s ease-in; }
   .btn-warning:hover,
   .btn-warning.disabled:hover {
-    background: #ffb22b;
+    background: #a8daff;
     -webkit-box-shadow: 0 14px 26px -12px rgba(248, 194, 0, 0.42), 0 4px 23px 0 rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(248, 194, 0, 0.2);
     box-shadow: 0 14px 26px -12px rgba(248, 194, 0, 0.42), 0 4px 23px 0 rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(248, 194, 0, 0.2);
-    border: 1px solid #ffb22b; }
+    border: 1px solid #60f6fc; }
   .btn-warning.active, .btn-warning:focus,
   .btn-warning.disabled.active,
   .btn-warning.disabled:focus {
@@ -1939,6 +1936,7 @@ File: scss
   box-shadow: 5px 0px 10px rgba(0, 0, 0, 0.5); }
   .topbar .top-navbar {
     min-height: 70px;
+    background-image: linear-gradient(to right, #0077ff, #ffffff);
     padding: 0px 15px 0 0; }
     .topbar .top-navbar .dropdown-toggle::after {
       display: none; }
@@ -8010,7 +8008,7 @@ input[type=checkbox]:not(:disabled).tabbed:focus ~ .lever::after {
 
 .searchTerm {
     width: 100%;
-    border: 3px solid #00B4CC;
+    border: 3px solid #4fb1f2;
     border-right: none;
     padding: 5px;
     height: 36px;
@@ -8020,20 +8018,56 @@ input[type=checkbox]:not(:disabled).tabbed:focus ~ .lever::after {
 }
 
 .searchTerm:focus{
-    color: #00B4CC;
+    color: #4fb1f2;
 }
 
 .searchButton {
     width: 40px;
     height: 36px;
-    border: 1px solid #00B4CC;
-    background: #00B4CC;
+    border: 1px solid #4fb1f2;
+    background: #4fb1f2;
     text-align: center;
     color: #fff;
     border-radius: 0 5px 5px 0;
     cursor: pointer;
     font-size: 20px;
 }
+/*----------------------------------- */
+/* End Search
+------------------------------------- */
 
-/*Resize the wrap to see the search bar change!*/
+
+/*----------------------------------- */
+/* Chart
+------------------------------------- */
+.card-block {
+    background-color: #f9fbfd;
+    border-radius: 8px;
+}
+#salesChart {
+    padding: 10px;
+    height: 430px !important;
+    width: 950px !important;
+}
+.list-inline-main .active-chart-main{
+    background-image: linear-gradient(to right, #0d9aff, #ff6d23);
+    border-radius: 10px;
+    padding: 5px 8px !important;
+}
+.list-inline-main .active-chart-main a h6{
+    color: #fff !important;
+    font-weight: bold;
+}
+.list-inline-bestSelling li{
+    margin: 0 1rem;
+}
+.active-chart-bestSelling a h6{
+    text-decoration-line: underline !important;
+    text-shadow: 1px 1px #000;
+    font-weight: bold;
+}
+/*----------------------------------- */
+/* End Chart
+------------------------------------- */
+
 

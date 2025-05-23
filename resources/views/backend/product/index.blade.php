@@ -1,79 +1,7 @@
 @extends('backend.layouts.layout')
 @section('content')
 
-    <body class="fix-header fix-sidebar card-no-border">
-    <!-- ============================================================== -->
-    <!-- Preloader - style you can find in spinners.css -->
-    <!-- ============================================================== -->
-    <div class="preloader">
-        <svg class="circular" viewBox="25 25 50 50">
-            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" /> </svg>
-    </div>
-    <!-- ============================================================== -->
-    <!-- Main wrapper - style you can find in pages.scss -->
-    <!-- ============================================================== -->
-    <div id="main-wrapper">
-        <!-- ============================================================== -->
-        <!-- Topbar header - style you can find in pages.scss -->
-        <!-- ============================================================== -->
-        <header class="topbar">
-            <nav class="navbar top-navbar navbar-toggleable-sm navbar-light">
-                <!-- ============================================================== -->
-                <!-- Logo -->
-                <!-- ============================================================== -->
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="dashboard/index.blade.php">
-                        <!-- Logo icon --><b>
-                            <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
 
-                            <!-- Light Logo icon -->
-                            <img src="../../../../../../../HK10/NT208/FE/template/assets/images/logo-light-icon.png" alt="homepage" class="light-logo" />
-                        </b>
-                        <!--End Logo icon -->
-                        <!-- Logo text --><span>
-
-                         <!-- Light Logo text -->
-                         <img src="../../../../../../../HK10/NT208/FE/template/assets/images/logo-light-text.png" class="light-logo" alt="homepage" /></span> </a>
-                </div>
-                <!-- ============================================================== -->
-                <!-- End Logo -->
-                <!-- ============================================================== -->
-                <div class="navbar-collapse">
-                    <!-- ============================================================== -->
-                    <!-- toggle and nav items -->
-                    <!-- ============================================================== -->
-                    <ul class="navbar-nav mr-auto mt-md-0">
-                        <!-- This is  -->
-                        <li class="nav-item"> <a class="nav-link nav-toggler hidden-md-up text-muted waves-effect waves-dark" href="javascript:void(0)"><i class="mdi mdi-menu"></i></a> </li>
-                        <!-- ============================================================== -->
-                        <!-- Search -->
-                        <!-- ============================================================== -->
-                        <li class="nav-item hidden-sm-down search-box"> <a class="nav-link hidden-sm-down text-muted waves-effect waves-dark" href="javascript:void(0)"><i class="ti-search"></i></a>
-                            <form class="app-search">
-                                <input type="text" class="form-control" placeholder="Search & enter"> <a class="srh-btn"><i class="ti-close"></i></a> </form>
-                        </li>
-                    </ul>
-                    <!-- ============================================================== -->
-                    <!-- User profile and search -->
-                    <!-- ============================================================== -->
-                    <ul class="navbar-nav my-lg-0">
-                        <!-- ============================================================== -->
-                        <!-- Profile -->
-                        <!-- ============================================================== -->
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="../../../../../../../HK10/NT208/FE/template/assets/images/users/1.jpg" alt="user" class="profile-pic m-r-10" />Markarn Doe</a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-        </header>
-        <!-- ============================================================== -->
-        <!-- End Topbar header -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- Left Sidebar - style you can find in sidebar.scss  -->
-        <!-- ============================================================== -->
-        @include("backend.component.left-sidebar")
         <!-- ============================================================== -->
         <!-- End Left Sidebar - style you can find in sidebar.scss  -->
         <!-- ============================================================== -->
@@ -106,12 +34,12 @@
                 <div class="row">
                     <!-- column -->
                     <div class="col-lg-12">
-                        <div class="card">
+                        <div class="card p-20">
                             <div class="card-block">
                                 <div class="row">
                                     <div class="col-3">
-                                        <h4 class="card-title">Basic Table</h4>
-                                        <h6 class="card-subtitle">Add class <code>.table</code></h6>
+                                        <h4 class="card-title">Product</h4>
+                                        <h6 class="card-subtitle">There are a total of  <code>{{$totalProducts}}</code> products.</h6>
                                     </div>
                                     <div class="col-8 text-end">
                                         <div class="w-80">
@@ -130,6 +58,7 @@
 
                                 <div class="table-responsive">
                                     <table class="table">
+{{--                                        {{dd($data)}}--}}
                                         <thead>
                                             <tr>
                                                 <th>#</th>
@@ -139,12 +68,16 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                        @foreach($data as $product)
+{{--                                            {{dd($product)}}--}}
                                             <tr>
                                                 <td>1</td>
-                                                <td>Deshmukh</td>
+                                                <td>{{$product->name_product}}</td>
                                                 <td>Prohaska</td>
                                                 <td>@Genelia</td>
                                             </tr>
+                                        @endforeach
+
                                             <tr>
                                                 <td>2</td>
                                                 <td>Deshmukh</td>
