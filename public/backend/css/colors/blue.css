@@ -42,7 +42,7 @@ File: scss
     display: inline-block;
     color: rgba(255, 255, 255, 0.8); }
   .topbar .navbar-light .navbar-nav .nav-item > a.nav-link {
-    color: #ffffff !important; }
+    color: #2576ff !important; }
     .topbar .navbar-light .navbar-nav .nav-item > a.nav-link:hover, .topbar .navbar-light .navbar-nav .nav-item > a.nav-link:focus {
       color: rgba(255, 255, 255, 0.8) !important; }
 

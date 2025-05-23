@@ -20,7 +20,7 @@ function alert_after_load(title, icon, text, reload) {
 /*----------------------------------------------------*/
 /*  Alert Login Fail
 /*----------------------------------------------------*/
-function alert_login_fail(title) {
+function alert_login(title) {
     Swal.fire({
         position: "top-end",
         icon: "error",
@@ -31,6 +31,20 @@ function alert_login_fail(title) {
 }
 /*----------------------------------------------------*/
 /*  End Alert Login Fail
+/*----------------------------------------------------*/
+
+/*----------------------------------------------------*/
+/*  Alert Send Mail
+/*----------------------------------------------------*/
+function alert_send_mail(type, title) {
+    Swal.fire({
+        title: title,
+        icon: type,
+        draggable: true
+    });
+}
+/*----------------------------------------------------*/
+/*  End Alert Send Mail
 /*----------------------------------------------------*/
 
 

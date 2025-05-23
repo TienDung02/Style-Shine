@@ -22,26 +22,26 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         Admin::factory()->create([
-            'username' => 'superadmin',
-            'email' => 'superadmin@example.com',
+            'username' => 'admin',
+            'email' => 'nongtiendung2309@gmail.com',
             'password' => Hash::make('password'),
         ]);
 
-        Customer::factory()->count(50)->create();
-        Category::factory()->count(10)->create();
+        Customer::factory()->count(2000)->create();
+        Category::factory()->count(20)->create();
         $categoryIds = Category::all()->pluck('id');
-        Product::factory()->count(100)->create([
+        Product::factory()->count(50)->create([
             'id_category' => function (array $attributes) use ($categoryIds) {
                 return $categoryIds->random();
             },
         ]);
         $customerUsernames = Customer::all()->pluck('id');
-        Invoice::factory()->count(200)->create([
+        Invoice::factory()->count(5000)->create([
             'customer_id' => function (array $attributes) use ($customerUsernames) {
                 return $customerUsernames->random();
             },
         ]);
-        Review::factory()->count(300)->create([
+        Review::factory()->count(1000)->create([
             'customer_id' => function (array $attributes) use ($customerUsernames) {
                 return $customerUsernames->random();
             },
@@ -52,7 +52,7 @@ class DatabaseSeeder extends Seeder
         foreach($invoiceIds as $invoiceId) {
             $detailsCount = rand(1, 5);
             InvoiceDetail::factory()->count($detailsCount)->create([
-                'id_invoice' => $invoiceId, // Gán chi tiết này cho invoice cụ thể
+                'id_invoice' => $invoiceId,
                 'id_product' => function (array $attributes) use ($productIds) {
                     return $productIds->random();
                 },

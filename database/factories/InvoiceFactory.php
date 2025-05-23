@@ -9,17 +9,15 @@ use App\Models\Customer;
  */
 class InvoiceFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
+        $createdAt = $this->faker->dateTimeBetween('-2 years', 'now');
         return [
-            'total_price' => 0,
+            'total_price' => $this->faker->randomFloat(2, 1, 100),
             'payment_method' => $this->faker->randomElement(['Cash', 'Credit Card', 'Transfer']),
             'customer_id' => Customer::factory(),
+            'created_at' => $createdAt,
+            'updated_at' => $createdAt,
         ];
     }
 }
