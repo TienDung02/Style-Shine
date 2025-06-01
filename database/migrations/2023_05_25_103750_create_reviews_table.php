@@ -18,6 +18,8 @@ return new class extends Migration
 //        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         Schema::create('reviews', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
+
             $table->id();
             $table->float('rating');
             $table->text('comment');

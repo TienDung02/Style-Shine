@@ -17,6 +17,8 @@ return new class extends Migration
 //        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         Schema::create('categories', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
+
             $table->id();
             $table->unsignedBigInteger('parent_id')->nullable()->default(null);
             $table->string('name', 100);

@@ -18,6 +18,8 @@ return new class extends Migration
 //        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         Schema::create('orders', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
+
             $table->id();
             $table->decimal('total_price', 10, 2);
             $table->string('payment_method');

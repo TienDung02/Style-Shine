@@ -19,6 +19,8 @@ return new class extends Migration
 //        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         Schema::create('product_images', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
+
             $table->id();
             $table->longText('image_url');
             $table->boolean('is_primary')->default(false);

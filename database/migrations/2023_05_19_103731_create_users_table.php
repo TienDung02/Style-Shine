@@ -15,6 +15,9 @@ class CreateUsersTable extends Migration
 //        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         Schema::create('users', function (Blueprint $table) {
+
+            $table->engine = 'InnoDB';
+
             $table->id();
                 $table->string('username');
             $table->string('password');
