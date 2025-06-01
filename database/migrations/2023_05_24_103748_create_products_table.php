@@ -17,6 +17,7 @@ return new class extends Migration
         Schema::dropIfExists('products');
 //        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
         Schema::create('products', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->id();
             $table->string('name');
             $table->decimal('price', 8, 2);

@@ -19,12 +19,14 @@ return new class extends Migration
         Schema::dropIfExists('order_details');
 //        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
         Schema::create('order_details', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
+
             $table->id();
             $table->unsignedBigInteger('order_id');
             $table->unsignedBigInteger('product_id');
             $table->integer('quantity');
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
-            $table->foreign('product_id')->references('id_product')->on('products')->onDelete('cascade');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
         });
