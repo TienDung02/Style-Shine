@@ -9,6 +9,7 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
+    protected $engine = 'InnoDB';
     public function up(): void
     {
 //        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
