@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up()
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+//        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         Schema::dropIfExists('categories');
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+//        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
