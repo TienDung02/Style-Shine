@@ -17,7 +17,7 @@ return new class extends Migration
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         Schema::create('products', function (Blueprint $table) {
-            $table->integer('id', true);
+            $table->id();
             $table->string('name');
             $table->decimal('price', 8, 2);
             $table->string('quantity')->nullable();
