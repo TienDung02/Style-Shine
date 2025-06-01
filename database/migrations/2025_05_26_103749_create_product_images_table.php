@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
 
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+//        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         Schema::dropIfExists('product_images');
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+//        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         Schema::create('product_images', function (Blueprint $table) {
             $table->id();
