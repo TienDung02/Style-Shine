@@ -1,166 +1,116 @@
 @extends('backend.layouts.layout')
 @section('content')
-
-    <body class="fix-header fix-sidebar card-no-border">
-    <!-- ============================================================== -->
-    <!-- Preloader - style you can find in spinners.css -->
-    <!-- ============================================================== -->
-    <div class="preloader">
-        <svg class="circular" viewBox="25 25 50 50">
-            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" /> </svg>
-    </div>
-    <!-- ============================================================== -->
-    <!-- Main wrapper - style you can find in pages.scss -->
-    <!-- ============================================================== -->
-    <div id="main-wrapper">
-        <!-- ============================================================== -->
-        <!-- Topbar header - style you can find in pages.scss -->
-        <!-- ============================================================== -->
-        <header class="topbar">
-            <nav class="navbar top-navbar navbar-toggleable-sm navbar-light">
-                <!-- ============================================================== -->
-                <!-- Logo -->
-                <!-- ============================================================== -->
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="dashboard/index.blade.php">
-                        <!-- Logo icon --><b>
-                            <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
-
-                            <!-- Light Logo icon -->
-                            <img src="../../../../../../../HK10/NT208/FE/template/assets/images/logo-light-icon.png" alt="homepage" class="light-logo" />
-                        </b>
-                        <!--End Logo icon -->
-                        <!-- Logo text --><span>
-
-                         <!-- Light Logo text -->
-                         <img src="../../../../../../../HK10/NT208/FE/template/assets/images/logo-light-text.png" class="light-logo" alt="homepage" /></span> </a>
-                </div>
-                <!-- ============================================================== -->
-                <!-- End Logo -->
-                <!-- ============================================================== -->
-                <div class="navbar-collapse">
-                    <!-- ============================================================== -->
-                    <!-- toggle and nav items -->
-                    <!-- ============================================================== -->
-                    <ul class="navbar-nav mr-auto mt-md-0">
-                        <!-- This is  -->
-                        <li class="nav-item"> <a class="nav-link nav-toggler hidden-md-up text-muted waves-effect waves-dark" href="javascript:void(0)"><i class="mdi mdi-menu"></i></a> </li>
-                        <!-- ============================================================== -->
-                        <!-- Search -->
-                        <!-- ============================================================== -->
-                        <li class="nav-item hidden-sm-down search-box"> <a class="nav-link hidden-sm-down text-muted waves-effect waves-dark" href="javascript:void(0)"><i class="ti-search"></i></a>
-                            <form class="app-search">
-                                <input type="text" class="form-control" placeholder="Search & enter"> <a class="srh-btn"><i class="ti-close"></i></a> </form>
-                        </li>
-                    </ul>
-                    <!-- ============================================================== -->
-                    <!-- User profile and search -->
-                    <!-- ============================================================== -->
-                    <ul class="navbar-nav my-lg-0">
-                        <!-- ============================================================== -->
-                        <!-- Profile -->
-                        <!-- ============================================================== -->
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="../../../../../../../HK10/NT208/FE/template/assets/images/users/1.jpg" alt="user" class="profile-pic m-r-10" />Markarn Doe</a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-        </header>
-        <!-- ============================================================== -->
-        <!-- End Topbar header -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- Left Sidebar - style you can find in sidebar.scss  -->
-        <!-- ============================================================== -->
-        @include("backend.component.left-sidebar")
-        <!-- ============================================================== -->
-        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- Page wrapper  -->
-        <!-- ============================================================== -->
         <div class="page-wrapper">
-            <!-- ============================================================== -->
-            <!-- Container fluid  -->
-            <!-- ============================================================== -->
             <div class="container-fluid">
-                <!-- ============================================================== -->
-                <!-- Bread crumb and right sidebar toggle -->
-                <!-- ============================================================== -->
                 <div class="row page-titles">
                     <div class="col-md-5 col-8 align-self-center">
                         <h3 class="text-themecolor m-b-0 m-t-0">Product</h3>
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                            <li class="breadcrumb-item active">Product</li>
+                            <li class="breadcrumb-item active"><a href="{{route('admin.dashboard.index')}}">Home</a></li>
+                            <li class="breadcrumb-item active"><a href="{{route('admin.product')}}">Product</a></li>
+                            <li class="breadcrumb-item">Add</li>
                         </ol>
                     </div>
                 </div>
-                <!-- ============================================================== -->
-                <!-- End Bread crumb and right sidebar toggle -->
-                <!-- ============================================================== -->
-                <!-- ============================================================== -->
-                <!-- Start Page Content -->
-                <!-- ============================================================== -->
                 <div class="row">
                     <!-- column -->
-                    <div class="col-lg-12">
+                    <div class="col-lg-9 m-auto">
                         <div class="card">
-                            <div class="card-block">
-                                <h4 class="card-title">Basic Table</h4>
-                                <h6 class="card-subtitle">Add class <code>.table</code></h6>
+                            <div class="card-block p-20">
+                                <h4 class="card-title p-b-30 text-center">Add Product</h4>
+                                <form method="post" action="
+                                        @if($product)
+                                            {{ route('admin.product.update', $product->id) }}
+                                        @else
+                                            {{ route('admin.product.store') }}
+                                        @endif
+                                    " enctype="multipart/form-data">
 
-                                <div class="table-responsive">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>First Name</th>
-                                                <th>Last Name</th>
-                                                <th>Username</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Deshmukh</td>
-                                                <td>Prohaska</td>
-                                                <td>@Genelia</td>
-                                            </tr>
-                                            <tr>
-                                                <td>2</td>
-                                                <td>Deshmukh</td>
-                                                <td>Gaylord</td>
-                                                <td>@Ritesh</td>
-                                            </tr>
-                                            <tr>
-                                                <td>3</td>
-                                                <td>Sanghani</td>
-                                                <td>Gusikowski</td>
-                                                <td>@Govinda</td>
-                                            </tr>
-                                            <tr>
-                                                <td>4</td>
-                                                <td>Roshan</td>
-                                                <td>Rogahn</td>
-                                                <td>@Hritik</td>
-                                            </tr>
-                                            <tr>
-                                                <td>5</td>
-                                                <td>Joshi</td>
-                                                <td>Hickle</td>
-                                                <td>@Maruti</td>
-                                            </tr>
-                                            <tr>
-                                                <td>6</td>
-                                                <td>Nigam</td>
-                                                <td>Eichmann</td>
-                                                <td>@Sonu</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+                                    @csrf
+                                    @if($product != '')
+                                        @method('PUT')
+                                    @endif
+                                    <div class="table-responsive px-5">
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <h5>Avatar</h5>
+                                                <div class="controlContainer position-absolute">
+                                                    <i class="bi bi-plus-circle-dotted text-center" id="icon_add"><br>
+                                                        Add Image
+                                                    </i>
+                                                    <div class="inputFileHolder h-100">
+                                                        <a class="w-100 h-100" href="#" title="Browse">
+                                                        </a>
+                                                        <input id="fileInput2" name="image" class="file-img fileInput w-100 h-100" title="Choose file to upload" value=""   type="file">
+                                                        <input name="avatar_old"
+                                                               value="{{ isset($product_image->image_url) ? $product_image->image_url : '' }}"
+                                                               type="hidden">
+                                                    </div>
+                                                </div>
+                                                <img id="image_product" class="border image-preview btn-select-img cursor-pointer" src="{{  isset($product_image->image_url) ? $product_image->image_url : '' }}">                                                     >
+                                                <h6>(reasonable size: 350px x 400px)</h6>
+                                            </div>
+                                            <div class="col-8">
+                                                <div class="w-100 mb-4">
+                                                    <h5>Name</h5>
+                                                    <input type="text" name="name" class="w-100 form-control" value="{{ $product != '' ? $product->name : '' }}">
+                                                </div>
+                                                <div class="w-100 mb-4 d-flex justify-content-between">
+                                                    <div class="w-45">
+                                                        <h5>Brand</h5>
+                                                        <select  class="w-100 form-control" name="brand">
+                                                            @foreach($brands as $brand)
+                                                                <option
+
+                                                                    @if($product != '')
+                                                                        {{$product->brand_id  == $brand->id ? 'selected' : ''}}
+                                                                    @endif
+
+                                                                    value="{{$brand->id}}">{{$brand->name}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    <div class="w-45">
+                                                        <label><h5>Price ($)</h5></label>
+                                                        <input type="number" name="price" class="w-100 form-control" value="{{ $product != '' ? $product->price : '' }}">
+                                                    </div>
+                                                </div>
+                                                <div class="w-100 mb-4 d-flex justify-content-between">
+                                                    <div class="w-45">
+                                                        <h5>Category</h5>
+                                                        <select  class="w-100 form-control" name="category">
+                                                            @foreach($categories as $category)
+                                                                <option
+                                                                    @if($product != '')
+                                                                        {{$product->category_id  == $category->id ? 'selected' : ''}}
+                                                                    @endif
+                                                                    value="{{$category->id}}">{{$category->name}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    <div class="w-45">
+                                                        <label><h5>Quantity</h5></label>
+                                                        <input type="number" name="quantity" class="w-100 form-control"value="{{ $product != '' ? $product->quantity : '' }}">
+                                                    </div>
+                                                </div>
+                                                <div class="w-100">
+                                                    <h5>Description</h5>
+                                                    <textarea class="w-100 form-control summernote" name="desc" style="height: 240px">{{ $product != '' ? $product->description : '' }}</textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="d-flex justify-content-end mt-4 px-5">
+                                        <div class="form position-relative margin-bottom-90 w-5 me-5">
+                                            <button type="button" class="p-3 bg-danger border-0 rounded">
+                                                <a class="text-white " href="{{route('admin.product')}}">Cancel</a></button>
+                                        </div>
+                                        <div class="form position-relative margin-bottom-90 w-10 ">
+                                            <input type="submit" class="rounded bg-success text-white border-0 p-3" value="Save Changes">
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>

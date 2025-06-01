@@ -4,22 +4,29 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Review extends Model
 {
     /** @use HasFactory<\Database\Factories\ReviewFactory> */
-    use HasFactory;
+    use HasFactory, SoftDeletes;
+
 
 
     protected $fillable = [
         'rating',
         'comment',
-        'customer_id',
+        'user_id',
+        'product_id',
     ];
+    protected $dates = ['deleted_at'];
 
-
-    public function customer()
+    public function user()
     {
-        return $this->belongsTo(Customer::class, 'customer_id', 'id');
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'product_id', 'id');
     }
 }

@@ -117,7 +117,7 @@
                                                 <table border="0" align="right" cellpadding="0" cellspacing="0" role="presentation" class="row" width="280" style="width:280px;max-width:280px;">
                                                     <tr  >
                                                         <td align="left" class="center-text" style="display: flex; justify-content: center">
-                                                            <img style="width:14rem;display: inline!important;" src="https://www.vasterad.com/themes/workscout_2019/images/logo.png" width="72" border="0" alt="{{ config('app.name') }}">
+                                                            <img style="display: inline!important;" src="cid:avatar_cid" width="72" border="0" alt="{{ config('app.name') }}">
                                                         </td>
                                                     </tr>
                                                 </table>

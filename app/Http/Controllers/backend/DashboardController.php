@@ -2,51 +2,85 @@
 
 namespace App\Http\Controllers\backend;
 use Illuminate\Support\Facades\DB;
-use App\Models\Invoice;
+use App\Models\Order;
 use Illuminate\Http\Request;
 use App\Models\Product;
 class DashboardController
 {
     public function index()
     {
-//        $totalRevenue = Invoice::sum('total_price');
-//
-//        $monthlyRevenue = Invoice::select(
-//            DB::raw('MONTH(created_at) as month'),
-//            DB::raw('SUM(total_price) as total')
-//        )
-//            ->groupBy(DB::raw('MONTH(created_at)'))
-//            ->get();
-//        return view('backend.dashboard.index', compact('monthlyRevenue', 'totalRevenue'));
-        $topCustomers = DB::table('invoice_details')
-            ->join('invoices', 'invoice_details.id_invoice', '=', 'invoices.id')
-            ->join('customers', 'invoices.customer_id', '=', 'customers.id')
+        // Lấy top 5 khách hàng
+        $topCustomers = DB::table('order_details')
+            ->join('orders', 'order_details.order_id', '=', 'orders.id')
+            ->join('users', 'orders.user_id', '=', 'users.id')
             ->select(
-                'customers.id',
-                'customers.cus_name',
-                DB::raw('SUM(invoice_details.quality) as total_quantity'),
-                DB::raw('(SELECT MAX(invoices2.created_at) FROM invoices as invoices2 WHERE invoices2.customer_id = customers.id) as last_purchase_date')
+                'users.id',
+                'users.full_name',
+                DB::raw('SUM(order_details.quantity) as total_quantity'),
+                DB::raw('(SELECT MAX(invoices2.created_at) FROM orders as invoices2 WHERE invoices2.user_id = users.id) as last_purchase_date')
             )
-            ->groupBy('customers.id', 'customers.cus_name')
+            ->groupBy('users.id', 'users.full_name')
             ->orderByDesc('total_quantity')
             ->limit(5)
             ->get();
-//        dd($topCustomers);
-        $totalProducts = Product::count();
 
-        return view('backend.dashboard.index', compact("totalProducts", "topCustomers"));
+        // Lấy tổng số sản phẩm
+        $totalProducts = Product::count(); // Đảm bảo Product model đã được import
+
+        // Lấy danh sách các năm có trong bảng orders
+        $years = DB::table('orders')
+            ->select(DB::raw('YEAR(created_at) as year'))
+            ->distinct()
+            ->orderBy('year', 'desc') // Sắp xếp giảm dần để năm mới nhất ở đầu dropdown
+            ->pluck('year');
+
+        // Chuẩn bị dữ liệu biểu đồ mặc định (ví dụ: theo tháng của năm hiện tại)
+        $currentYear = date('Y'); // Lấy năm hiện tại
+        $monthlyData = Order::select(
+            DB::raw('MONTH(created_at) as period'),
+            DB::raw('SUM(total_price) as total')
+        )
+            ->whereYear('created_at', $currentYear) // Lọc dữ liệu theo năm hiện tại
+            ->groupBy(DB::raw('MONTH(created_at)'))
+            ->orderBy('period', 'asc')
+            ->get();
+
+        // Chuẩn bị mảng labels và totals cho JavaScript (đảm bảo đủ 12 tháng)
+        $initialLabels = range(1, 12);
+        $initialTotals = array_fill(1, 12, 0); // Khởi tạo với 0 cho tất cả 12 tháng
+        foreach ($monthlyData as $revenue) {
+            $initialTotals[$revenue->period] = (float)$revenue->total;
+        }
+
+        // Đóng gói dữ liệu biểu đồ ban đầu thành một array để truyền sang JS
+        $initialChartData = [
+            'labels' => $initialLabels,
+            'totals' => array_values($initialTotals) // Lấy giá trị của mảng
+        ];
+
+        return view('backend.dashboard.index', compact(
+            "totalProducts",
+            "topCustomers",
+            "years",
+            "initialChartData" // Truyền dữ liệu biểu đồ ban đầu
+        ));
     }
     public function getStatsData(Request $request)
     {
-//        dd($request->all());
-        // Lấy kiểu thống kê từ request (mặc định là 'month')
         $type = $request->input('type', 'month');
+        $selectedYear = $request->input('year');
 
         $labels = [];
         $totals = [];
 
+        $query = Order::query();
+
+        if (!empty($selectedYear)) {
+            $query->whereYear('created_at', $selectedYear);
+        }
+
         if ($type === 'month') {
-            $monthlyRevenue = Invoice::select(
+            $monthlyRevenue = $query->select(
                 DB::raw('MONTH(created_at) as period'),
                 DB::raw('SUM(total_price) as total')
             )
@@ -62,8 +96,7 @@ class DashboardController
             $labels = range(1, 12);
             $totals = array_values($revenueByPeriod);
         } elseif ($type === 'quarter') {
-            // Thống kê theo quý
-            $quarterlyRevenue = Invoice::select(
+            $quarterlyRevenue = $query->select(
                 DB::raw('QUARTER(created_at) as period'),
                 DB::raw('SUM(total_price) as total')
             )
@@ -79,8 +112,7 @@ class DashboardController
             $labels = ['Q1', 'Q2', 'Q3', 'Q4'];
             $totals = array_values($revenueByPeriod);
         } else {
-            // Thống kê theo năm
-            $yearlyRevenue = Invoice::select(
+            $yearlyRevenue = $query->select(
                 DB::raw('YEAR(created_at) as period'),
                 DB::raw('SUM(total_price) as total')
             )
@@ -101,67 +133,100 @@ class DashboardController
 
     public function bestSelling(Request $request)
     {
-        $now = now();
-        $type = $request->type;
 //        dd($request->all());
-        switch ($type) {
-            case 'month':
-                $start = $now->copy()->startOfMonth();
-                $end = $now->copy()->endOfMonth();
-                break;
-            case 'quarter':
-                $start = $now->copy()->firstOfQuarter();
-                $end = $now->copy()->lastOfQuarter();
-                break;
-            case 'year':
-                $start = $now->copy()->startOfYear();
-                $end = $now->copy()->endOfYear();
-                break;
-            default:
-                return response()->json(['error' => 'Invalid type'], 400);
+        $type = $request->input('type', 'month');
+        $selectedYear = $request->input('year');
+
+
+
+
+
+        $orderQuery = Order::query();
+        if (!empty($selectedYear)) {
+            $orderQuery->whereYear('created_at', $selectedYear);
         }
 
-        $totalAll = DB::table('invoice_details')
-            ->join('invoices', 'invoices.id', '=', 'invoice_details.id_invoice')
-            ->whereBetween('invoices.created_at', [$start, $end])
-            ->sum('invoice_details.quality');
+        $filteredOrderIds = $orderQuery->pluck('id')->toArray();
+
+//        dd($filteredOrderIds);
+
+        if (empty($filteredOrderIds) && !empty($selectedYear)) {
+            return response()->json([]);
+        }
+
+        $start = null;
+        $end = null;
+        $now = now();
+
+        if ($type === 'month') {
+            $start = $now->copy()->startOfMonth();
+            $end = $now->copy()->endOfMonth();
+        } elseif ($type === 'quarter') {
+            $start = $now->copy()->firstOfQuarter();
+            $end = $now->copy()->lastOfQuarter();
+        } elseif ($type === 'year') {
+        } else {
+            return response()->json(['error' => 'Invalid type'], 400);
+        }
+        $totalAllQuery = DB::table('order_details')
+            ->join('orders', 'orders.id', '=', 'order_details.order_id')
+            ->whereIn('orders.id', $filteredOrderIds);
+
+        if ($start && $end) {
+            $totalAllQuery->whereBetween('orders.created_at', [$start, $end]);
+        }
+
+        $totalAll = $totalAllQuery->sum('order_details.quantity');
 
         if ($totalAll == 0) {
             return response()->json([]);
         }
 
-        // Top 5 sản phẩm
-        $topProducts = DB::table('invoice_details')
-            ->join('products', 'products.id_product', '=', 'invoice_details.id_product')
-            ->join('invoices', 'invoices.id', '=', 'invoice_details.id_invoice')
-            ->whereBetween('invoices.created_at', [$start, $end])
-            ->select('products.name_product', DB::raw('SUM(invoice_details.quality) as total'))
-            ->groupBy('products.name_product')
+        $topProductsQuery = DB::table('order_details')
+            ->join('products', 'products.id', '=', 'order_details.product_id')
+            ->join('orders', 'orders.id', '=', 'order_details.order_id')
+            ->whereIn('orders.id', $filteredOrderIds);
+
+        if ($start && $end) {
+            $topProductsQuery->whereBetween('orders.created_at', [$start, $end]);
+        }
+
+        $topProducts = $topProductsQuery->select('products.name', DB::raw('SUM(order_details.quantity) as total'))
+            ->groupBy('products.name')
             ->orderByDesc('total')
             ->limit(5)
             ->get();
+//        dd($topProductsQuery);
 
         $topFormatted = [];
-        $topTotal = 0;
+        $topTotalPercent = 0;
+
         foreach ($topProducts as $item) {
             $percent = round($item->total / $totalAll * 100, 2);
-            $topTotal += $percent;
+            $topTotalPercent += $percent;
             $topFormatted[] = [
-                'name' => $item->name_product,
+                'name' => $item->name,
                 'percent' => $percent
             ];
         }
 
-        // Phần còn lại
-        $otherPercent = round(100 - $topTotal, 2);
+        $otherPercent = round(100 - $topTotalPercent, 2);
 
-        if ($otherPercent > 0) {
+        if ($otherPercent > 0 && count($topProducts) >= 5) {
             $topFormatted[] = [
                 'name' => 'Orthers',
                 'percent' => $otherPercent
             ];
+        } elseif ($otherPercent > 0 && count($topProducts) < 5 && count($topProducts) > 0) {
+            if ($otherPercent >= 1) {
+                $topFormatted[] = [
+                    'name' => 'Orthers',
+                    'percent' => $otherPercent
+                ];
+            }
         }
-//        dd(response()->json($topFormatted));
+
+
         return response()->json($topFormatted);
     }
 

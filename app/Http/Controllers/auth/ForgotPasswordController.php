@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\Admin;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,6 +16,10 @@ class ForgotPasswordController extends Controller
     {
         return view('auth.forgotPassword.index');
     }
+    public function test()
+    {
+        return view('email.adminForgotPassword');
+    }
 
     public function forgot_password(Request $request)
     {
@@ -25,13 +29,13 @@ class ForgotPasswordController extends Controller
             $otpCreatedAt = \Carbon\Carbon::parse($infoAdmin['otp_created_at']);
             if (\Carbon\Carbon::now()->diffInMinutes($otpCreatedAt) > 30) {
                 Session::forget('info_admin');
-                $infoAdmin = null; // hoặc xử lý OTP hết hạn
+                $infoAdmin = null;
             }
         }
 
 
         $email = $request->input("email");
-        $admin = Admin::where('email', $email)->first();
+        $admin = User::where('email', $email)->first();
         if (!$admin) {
             Session::put('alert_email_not_exist', [
                 'alert__text' => '',
@@ -80,9 +84,9 @@ class ForgotPasswordController extends Controller
                 'alert_type' => 'error',
                 'alert_title' => 'Update fail',
                 'alert_text' => 'OTP does not exist or has expired.',
-                'alert_reload' => 'false',
+                'alert_reload' => 'true',
             ]);
-            return redirect()->route('change-password');
+            return redirect()->back();
         }
         $inputOtp = $request->input('otp');
         $otpCreatedAt = \Carbon\Carbon::parse($infoAdmin['otp_created_at']);
@@ -92,18 +96,18 @@ class ForgotPasswordController extends Controller
                 'alert_type' => 'error',
                 'alert_title' => 'Update fail',
                 'alert_text' => 'OTP has expired, please request again.',
-                'alert_reload' => 'false',
+                'alert_reload' => 'true',
             ]);
-            return redirect()->route('change-password');
+            return redirect()->back();
         }
         if ($inputOtp != $infoAdmin['otp']) {
             Session::put('alert_change_password', [
                 'alert_type' => 'error',
                 'alert_title' => 'Update fail',
                 'alert_text' => 'OTP is incorrect.',
-                'alert_reload' => 'false',
+                'alert_reload' => 'true',
             ]);
-            return redirect()->route('change-password');
+            return redirect()->back();
         }
         if ($request->password !== $request->password_confirmation) {
             Session::put('alert_change_password', [
@@ -114,15 +118,15 @@ class ForgotPasswordController extends Controller
             ]);
             return redirect()->route('change-password');
         }
-        $admin = Admin::where('email', $infoAdmin['email'])->first();
+        $admin = User::where('email', $infoAdmin['email'])->first();
         if (!$admin) {
             Session::put('alert_change_password', [
                 'alert_type' => 'error',
                 'alert_title' => 'Update fail',
                 'alert_text' => 'User does not exist.',
-                'alert_reload' => 'false',
+                'alert_reload' => 'true',
             ]);
-            return redirect()->route('change-password');
+            return redirect()->back();
         }
 
         $admin->password = Hash::make($request->password);
@@ -139,4 +143,43 @@ class ForgotPasswordController extends Controller
     {
         return view('auth.adminChangePassword.index');
     }
+    public function change_password_sendMail(Request $request)
+    {
+        $user = Auth::user();
+        return view('backend.changePassword.getOTP', compact('user'));
+    }
+    public function send_mail_process(Request $request)
+    {
+
+        $user = Auth::user();
+
+        $email = $request->input("email");
+        $admin = User::where('email', $email)->first();
+
+        $otp = mt_rand(100000, 999999);
+
+        $data = [
+            'otp' => $otp,
+        ];
+        $user['to'] = $admin->email;
+        Mail::send('.email.adminForgotPassword', $data, function ($messages) use ($user){
+            $messages->to($user['to']);
+            $messages->subject('Activate account');
+        });
+        Session::put('info_admin', [
+            'username' => $admin->username,
+            'email' => $admin->email,
+            'otp' => $otp,
+            'otp_created_at' => now(),
+        ]);
+        Session::put('alert_sendMail', [
+            'alert_sendMail_type' => "success",
+            'alert_sendMail_title' => "We have sent an email containing a password reset OTP to $email. Please check your email to continue.",
+        ]);
+        return redirect()->route("admin.password.index");
+    }
+    public function change_password_home(Request $request){
+        return view('backend.changePassword.index');
+    }
+
 }

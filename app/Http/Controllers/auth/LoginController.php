@@ -23,18 +23,19 @@ class LoginController extends Controller
             'password' => 'required|string',
         ]);
         $credentials = $request->only('username', 'password');
-//        $remember = $request->has('remember');
-//        if (Auth::guard('admin')->attempt($credentials, $remember)) {
-        if (Auth::guard('admin')->attempt($credentials)) {
-//            echo 123;die;
-            Session::put('alert_', [
-                'alert__type' => 'success',
-                'alert__title' => 'login success',
-                'alert__text' => '',
-                'alert_reload' => 'success',
-            ]);
+
+        if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->route('admin.dashboard.index');
+            $user = Auth::user();
+            if ($user->role === 1) {
+                return redirect()->route('admin.dashboard.index');
+            } else {
+                Session::put('alert_login_fail', [
+                    'alert__text' => 'You are not authorized to access this site.',
+                ]);
+                return back()->withErrors([
+                ])->onlyInput('username');
+            }
         }
         Session::put('alert_login_fail', [
             'alert__text' => 'Username or password incorrect',
@@ -44,7 +45,7 @@ class LoginController extends Controller
     }
     public function logout(Request $request)
     {
-        Auth::guard('admin')->logout();
+        Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return redirect()->route('admin.login.index');
