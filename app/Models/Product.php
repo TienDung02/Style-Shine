@@ -4,36 +4,55 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Scout\Searchable;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Product extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes, Searchable;
 
-    protected $primaryKey = 'id_product';
 
     protected $fillable = [
-        'name_product',
+        'name',
         'price',
-        'quality',
+        'quantity',
         'description',
-        'image_url',
-        'id_category',
-        'brand',
-        'id_review',
+        'category_id',
+        'brand_id',
     ];
+    protected $dates = ['deleted_at'];
 
-    public function category()
+    public function searchableAs(): string
     {
-        return $this->belongsTo(Category::class, 'id_category', 'id_category');
+        return 'products';
+    }
+    public function toSearchableArray(): array
+    {
+        $array = $this->toArray();
+//        dd($this->all());
+
+        return $array;
+    }
+    public function orderDetails()
+    {
+        return $this->hasMany(OrderDetail::class, 'product_id', 'id');
+    }
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class, 'category_id', 'id');
     }
 
+    public function brand()
+    {
+        return $this->belongsTo(Brand::class, 'brand_id', 'id');
+    }
+    public function productImage()
+    {
+        return $this->hasMany(ProductImage::class, 'product_id', 'id');
+    }
     public function reviews()
     {
-        return $this->hasMany(Review::class, 'id_product', 'id_product');
+        return $this->hasMany(Review::class, 'product_id', 'id');
     }
 
-    public function invoiceDetails()
-    {
-        return $this->hasMany(InvoiceDetail::class, 'id_product', 'id_product');
-    }
 }

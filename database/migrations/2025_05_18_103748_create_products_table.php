@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-
+use Illuminate\Support\Facades\DB;
 return new class extends Migration
 {
     /**
@@ -11,20 +11,23 @@ return new class extends Migration
      */
     public function up(): void
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         Schema::dropIfExists('products');
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
         Schema::create('products', function (Blueprint $table) {
-            $table->id('id_product');
-            $table->string('name_product');
+            $table->integer('id', true);
+            $table->string('name');
             $table->decimal('price', 8, 2);
-            $table->string('quality')->nullable();
+            $table->string('quantity')->nullable();
             $table->text('description')->nullable();
-            $table->text('image_url')->nullable();
-            $table->unsignedBigInteger('id_category');
-            $table->foreign('id_category')->references('id')->on('categories')->onDelete('cascade');
-            $table->string('brand')->nullable();
-            $table->unsignedBigInteger('id_review')->default(1);
-            $table->foreign('id_review')->references('id')->on('reviews')->onDelete('cascade');
+            $table->unsignedBigInteger('category_id');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->unsignedBigInteger('brand_id');
+            $table->foreign('brand_id')->references('id')->on('brands')->onDelete('cascade');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

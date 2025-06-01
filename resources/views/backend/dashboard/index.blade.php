@@ -24,44 +24,40 @@
                                         <div class="d-flex flex-wrap justify-content-between">
                                             <div>
                                                 <h3 class="card-title">Sales Overview</h3>
-                                                <h6 class="card-subtitle">Total Revenue ($)</h6> </div>
+                                                <h6 class="card-subtitle">Total Revenue ($)</h6>
+                                            </div>
+                                            <div class="select">
+                                                <select name="format" id="yearFormat">
+                                                    @foreach($years as $year)
+                                                        <option value="{{$year}}" {{ $year == date('Y') ? 'selected' : '' }}>{{$year}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="ml-auto">
                                                 <div class="ml-auto">
-                                                    <div class="ml-auto">
-                                                        <ul class="list-inline-main list-inline">
-                                                            <li id="btnMonth" class="active-chart-main">
-                                                                <a data-type="month" class="border-bottom"><h6 class="text-muted text-success mb-0">Month</h6></a>
-                                                            </li>
-                                                            <li id="btnQuarter">
-                                                                <a data-type="quarter"><h6 class="text-muted text-info mb-0">Quarter</h6></a>
-                                                            </li>
-                                                            <li id="btnYear">
-                                                                <a data-type="year"><h6 class=" text-primary mb-0">Year</h6></a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
+                                                    <ul class="list-inline-main list-inline">
+                                                        <li id="btnMonth" class="active-chart-main">
+                                                            <a data-type="month" class="border-bottom"><h6 class="text-muted text-success mb-0">Month</h6></a>
+                                                        </li>
+                                                        <li id="btnQuarter">
+                                                            <a data-type="quarter"><h6 class="text-muted text-info mb-0">Quarter</h6></a>
+                                                        </li>
+                                                        <li id="btnYear">
+                                                            <a data-type="year"><h6 class=" text-primary mb-0">Year</h6></a>
+                                                        </li>
+                                                    </ul>
                                                 </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-11">
+                                    <div class="col-12">
                                         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                                         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
                                         <span id="value-url" data-url="{{route("dashboard.data")}}"></span>
                                         <canvas height="380" width="1000" id="salesChart"></canvas>
-                                    </div>
-                                    <div class="col-1">
-
-                                        <div class="ml-auto">
-                                            <ul class=" list-inline">
-                                                @php
-                                                    $currentYear = date('Y');
-                                                    for ($year = $currentYear; $year >= $currentYear - 5; $year--) {
-
-                                                        echo "<option value='{$year}'>{$year}</option>";
-                                                    }
-                                                @endphp
-
-                                            </ul>
-                                        </div>
+                                        <script>
+                                            var initialChartData = @json($initialChartData);
+                                        </script>
                                     </div>
                                 </div>
                             </div>
@@ -70,14 +66,17 @@
                     <div class="col-lg-4 col-md-5">
                         <div class="card">
                             <div class="card-block p-20">
-                                <h3 class="card-title">Best Selling Products</h3>
-                                <h6 class="card-subtitle">There are a total of {{$totalProducts}} products.</h6>
-{{--                                <h3 class="card-title">Our Visitors </h3>--}}
-{{--                                <h6 class="card-subtitle">Different Devices Used to Visit</h6>--}}
-{{--                                <div id="visitor" style="height:290px; width:100%;"></div>--}}
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <h3 class="card-title">Best Selling Products</h3>
+                                        <h6 class="card-subtitle">There are a total of {{$totalProducts}} products.</h6>
+                                    </div>
+
+                                </div>
                                 <canvas height="380" width="480" id="bestSellingChart"></canvas>
                                 <span id="product-chart-url" data-url="{{ route('dashboard.bestSelling') }}"></span>
                             </div>
+
                             <div>
                                 <hr class="m-t-0 m-b-0">
                             </div>
@@ -125,9 +124,9 @@
                                         @foreach($topCustomers as $topCustomer)
                                             <tr>
                                                 <td>{{$count}}</td>
-                                                <td>{{$topCustomer->cus_name}}</td>
+                                                <td>{{$topCustomer->full_name}}</td>
                                                 <td>{{$topCustomer->total_quantity}}</td>
-                                                <td>{{$topCustomer->last_purchase_date}}</td>
+                                                <td>{{ \Carbon\Carbon::parse($topCustomer->last_purchase_date)->format('d-m-Y') }}</td>
                                                 @php $count++ @endphp
                                             </tr>
                                         @endforeach

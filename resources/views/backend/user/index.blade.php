@@ -1,21 +1,8 @@
 @extends('backend.layouts.layout')
 @section('content')
 
-
-        <!-- ============================================================== -->
-        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- Page wrapper  -->
-        <!-- ============================================================== -->
         <div class="page-wrapper">
-            <!-- ============================================================== -->
-            <!-- Container fluid  -->
-            <!-- ============================================================== -->
             <div class="container-fluid">
-                <!-- ============================================================== -->
-                <!-- Bread crumb and right sidebar toggle -->
-                <!-- ============================================================== -->
                 <div class="row page-titles">
                     <div class="col-md-5 col-8 align-self-center">
                         <h3 class="text-themecolor m-b-0 m-t-0">Customer</h3>
@@ -25,76 +12,87 @@
                         </ol>
                     </div>
                 </div>
-                <!-- ============================================================== -->
-                <!-- End Bread crumb and right sidebar toggle -->
-                <!-- ============================================================== -->
-                <!-- ============================================================== -->
-                <!-- Start Page Content -->
-                <!-- ============================================================== -->
                 <div class="row">
                     <!-- column -->
                     <div class="col-lg-12">
-                        <div class="card p-20">
+                        <div class="card p-20" id="get-result-limit">
                             <div class="card-block">
                                 <div class="row">
                                     <div class="col-3">
                                         <h4 class="card-title">Customer</h4>
-                                        <h6 class="card-subtitle">There are a total of  <code>{{$totalCustomers}}</code> customer.</h6>
+                                        <h6 class="card-subtitle">There are a total of  <code>{{$totalCustomers}}</code> customers.</h6>
                                     </div>
                                     <div class="col-8 text-end">
                                         <div class="w-80">
-                                            <form class="search">
-                                                <input type="text" class="searchTerm" placeholder="What are you looking for?">
-                                                <button type="submit" class="searchButton">
-                                                    <i class="fa fa-search"></i>
-                                                </button>
+                                            <span id="url_search" data-url="{{ route('admin.user.search') }}"> </span>
+                                            <form id="search-form" class="search" method="GET">
+                                                <input type="text" name="keyword" id="search-input" class="searchTerm" placeholder="What are you looking for?">
                                             </form>
                                         </div>
                                     </div>
-                                    <div class="col-1">
-                                        <a href="https://themewagon.com/themes/bootstrap-4-responsive-admin-template/" class="btn waves-effect waves-light btn-warning hidden-md-down">Add New</a>
-                                    </div>
                                 </div>
 
-                                <div class="table-responsive">
-                                    <table class="table">
-{{--                                        {{dd($data)}}--}}
-                                        <thead>
+                                <div id="get-result-search">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <colgroup>
+                                                <col width="80">
+                                                <col width="280">
+                                                <col width="300">
+                                                <col>
+                                                <col width="300">
+                                            </colgroup>
+                                            <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>User Name</th>
+                                                <th>Username</th>
                                                 <th>Full Name</th>
                                                 <th>Email</th>
+                                                <th><a style="color: #757575" href="">Number of products purchased</a></th>
                                             </tr>
-                                        </thead>
-                                        <tbody>
-{{--                                        @foreach($data as $product)--}}
-{{--                                            {{dd($product)}}--}}
-{{--                                            <tr>--}}
-{{--                                                <td>1</td>--}}
-{{--                                                <td>{{$product->name_product}}</td>--}}
-{{--                                                <td>Prohaska</td>--}}
-{{--                                                <td>@Genelia</td>--}}
-{{--                                            </tr>--}}
-{{--                                        @endforeach--}}
+                                            </thead>
+                                            <tbody>
+                                            <span id="get_limit" data-url="{{ route('admin.user.limit') }}"> </span>
+                                            @php
+                                                $shows = [ '5', '7', '9'];
+                                                $limit = request()->input('limit', 5);
+                                                $page = request()->input('page', 1);
+                                            @endphp
+                                            @foreach($data as $user)
+                                                <tr>
+                                                    <td>{{$user->id}}</td>
+                                                    <td>{{$user->username}}</td>
+                                                    <td>{{$user->full_name}}</td>
+                                                    <td>{{$user->email}}</td>
+                                                    <td>{{$user->total_quantity}}</td>
+                                                    <td class="d-flex btn-action">
+                                                        <a href="{{ route('admin.user.view', $user->id) }}" class="me-3">
+                                                            <button type="submit" class="btn btn-info text-white">View</button>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="card-bottom">
+                                        <div class="paginate" id="pagination-links">
+                                            {{$data->withQueryString()->appends($_GET)->links('.backend.component.paginate')}}
+                                        </div>
 
-
-{{--                                        <span id="change_active" data-url="{{ route('admin.candidate.update') }}"> </span>--}}
-                                        @php
-                                            $shows = [ '5', '10', '15'];
-                                            $limit = request()->input('limit', 5);
-                                            $page = request()->input('page', 1);
-                                        @endphp
-                                        @foreach($data as $key => $customer  )
-                                            <tr>
-                                                <td>{{ ($page-1)*$limit+$key+1}}</td>
-                                                <td>{{$customer->username}}</td>
-                                                <td>{{$customer->cus_name}}</td>
-                                                <td>{{$customer->email}}</td>
-                                            </tr>
-                                        @endforeach
-                                        </tbody>
-                                    </table>
+                                        <form action="" method="post">
+                                            @csrf
+                                            <div class="border-start">
+                                                <p>Show</p>
+                                                <select name="limit-category" id="show-limit">
+                                                    @foreach($shows as $show)
+                                                        <option {{$show==$limit?'selected':''}} value="{{$show}}">{{$show}}</option>
+                                                    @endforeach
+                                                </select>
+                                                <p>item</p>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>

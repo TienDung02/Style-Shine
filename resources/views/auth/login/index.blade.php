@@ -4,7 +4,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/png" href="./assets/img/favicon.png">
+      <link rel="icon" type="image/png" sizes="25x25" href="{{asset('/backend/images/logo.jpg')}}">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{{ asset("backend/css/bootstrap.min.css") }}">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
@@ -20,8 +20,8 @@
   <body>
     <div class="uf-form-signin" style="    margin-top: 10rem !important;">
         <div class="text-center">
-            <a><img src="{{asset('backend/images/logo.jpg')}}" alt="" width="100" height="100"></a>
-            <h1 class="text-white h3">Account Login </h1>
+            <a><img src="{{asset('backend/images/logo.jpg')}}" alt="" width="140" height="140"></a>
+            <h1 class="text-white h3 mt-3">Account Login </h1>
         </div>
         <form class="mt-4" method="POST" action="{{route('login')}}">
             @csrf

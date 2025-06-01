@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/png" href="./assets/img/favicon.png">
+    <link rel="icon" type="image/png" sizes="25x25" href="{{asset('/backend/images/logo.jpg')}}">
     <link rel="stylesheet" href="{{ asset("backend/css/bootstrap.min.css") }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
@@ -14,8 +14,8 @@
 <body>
 <div class="uf-form-signin" style="    margin-top: 10rem !important;">
     <div class="text-center">
-        <a><img src="{{asset('backend/images/logo.jpg')}}" alt="" width="100" height="100"></a>
-        <h1 class="text-white h3">Forgot Password</h1>
+        <a><img src="{{asset('backend/images/logo.jpg')}}" alt="" width="140" height="140"></a>
+        <h1 class="text-white h3 mt-4">Forgot Password</h1>
     </div>
     <form class="mt-4" method="POST" action="{{route('update-password')}}" id="resetPasswordForm">
         @csrf
@@ -48,6 +48,9 @@
         </div>
         <div class="d-grid mb-4">
             <button type="submit" class="btn uf-btn-primary btn-lg btn-submit-update">Send</button>
+        </div>
+        <div class="d-flex justify-content-center">
+            <a href="{{route('admin.login.index')}}">---------- Login ----------</a>
         </div>
     </form>
 </div>

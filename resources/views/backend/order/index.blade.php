@@ -40,76 +40,89 @@
                 <div class="row">
                     <!-- column -->
                     <div class="col-lg-12">
-                        <div class="card">
+                        <div class="card p-20" id="get-result-limit">
                             <div class="card-block">
                                 <div class="row">
                                     <div class="col-3">
-                                        <h4 class="card-title">Basic Table</h4>
-                                        <h6 class="card-subtitle">Add class <code>.table</code></h6>
+                                        <h4 class="card-title">Order</h4>
+                                        <h6 class="card-subtitle">There are a total of  <code>{{$total}}</code> orders.</h6>
                                     </div>
                                     <div class="col-8 text-end">
                                         <div class="w-80">
-                                            <form class="search">
-                                                <input type="text" class="searchTerm" placeholder="What are you looking for?">
-                                                <button type="submit" class="searchButton">
-                                                    <i class="fa fa-search"></i>
-                                                </button>
+                                            <span id="url_search" data-url="{{ route('admin.order.search') }}"> </span>
+                                            <form id="search-form" class="search" method="GET">
+                                                <input type="text" name="keyword" id="search-input" class="searchTerm" placeholder="What are you looking for?">
                                             </form>
                                         </div>
                                     </div>
-                                    <div class="col-1">
-                                        <a href="https://themewagon.com/themes/bootstrap-4-responsive-admin-template/" class="btn waves-effect waves-light btn-warning hidden-md-down">Add New</a>
-                                    </div>
                                 </div>
-                                <div class="table-responsive">
-                                    <table class="table">
-                                        <thead>
+
+                                <div id="get-result-search">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <colgroup>
+                                                <col width="100">
+                                                <col>
+                                                <col width="300">
+                                                <col width="210">
+                                                <col width="210">
+                                                <col width="220">
+                                                <col >
+                                            </colgroup>
+                                            <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>First Name</th>
-                                                <th>Last Name</th>
-                                                <th>Username</th>
+                                                <th>Customer Name</th>
+                                                <th>Payment Method</th>
+                                                <th>Status</th>
+                                                <th>Price ($)</th>
+                                                <th>Date</th>
+                                                <th>Action</th>
                                             </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Deshmukh</td>
-                                                <td>Prohaska</td>
-                                                <td>@Genelia</td>
-                                            </tr>
-                                            <tr>
-                                                <td>2</td>
-                                                <td>Deshmukh</td>
-                                                <td>Gaylord</td>
-                                                <td>@Ritesh</td>
-                                            </tr>
-                                            <tr>
-                                                <td>3</td>
-                                                <td>Sanghani</td>
-                                                <td>Gusikowski</td>
-                                                <td>@Govinda</td>
-                                            </tr>
-                                            <tr>
-                                                <td>4</td>
-                                                <td>Roshan</td>
-                                                <td>Rogahn</td>
-                                                <td>@Hritik</td>
-                                            </tr>
-                                            <tr>
-                                                <td>5</td>
-                                                <td>Joshi</td>
-                                                <td>Hickle</td>
-                                                <td>@Maruti</td>
-                                            </tr>
-                                            <tr>
-                                                <td>6</td>
-                                                <td>Nigam</td>
-                                                <td>Eichmann</td>
-                                                <td>@Sonu</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                            </thead>
+                                            <tbody>
+                                            <span id="get_limit" data-url="{{ route('admin.order.limit') }}"> </span>
+                                            @php
+                                                $shows = [ '5', '7', '9'];
+                                                $limit = request()->input('limit', 5);
+                                                $page = request()->input('page', 1);
+                                            @endphp
+                                            @foreach($data as $order)
+                                                <tr>
+                                                    <td>{{$order->id}}</td>
+                                                    <td>{{$order->full_name ?? $order->user->full_name}}</td>
+                                                    <td>{{$order->payment_method}}</td>
+                                                    <td>{{$order->status}}</td>
+                                                    <td>{{$order->total_price}}</td>
+                                                    <td>{{ \Carbon\Carbon::parse($order->updated_at)->format('d-m-Y') }}</td>
+                                                        <td class="d-flex btn-action">
+                                                        <a href="{{ route('admin.order.view', $order->id) }}" class="me-3">
+                                                            <button type="submit" class="btn btn-info text-white">View Detail</button>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="card-bottom">
+                                        <div class="paginate" id="pagination-links">
+                                            {{$data->withQueryString()->appends($_GET)->links('.backend.component.paginate')}}
+                                        </div>
+
+                                        <form action="" method="post">
+                                            @csrf
+                                            <div class="border-start">
+                                                <p>Show</p>
+                                                <select name="limit-category" id="show-limit">
+                                                    @foreach($shows as $show)
+                                                        <option {{$show==$limit?'selected':''}} value="{{$show}}">{{$show}}</option>
+                                                    @endforeach
+                                                </select>
+                                                <p>item</p>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
