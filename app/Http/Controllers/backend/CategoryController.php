@@ -48,20 +48,22 @@ class CategoryController
     }
     public function result_search($keyword, $limit = 5)
     {
-        $results = Category::search($keyword)->take(1000)->get();
-
-        $filtered = $results->whereNull('deleted_at');
+        $results = Category::where('name', 'like', '%' . $keyword . '%')
+            ->whereNull('deleted_at') // nếu bạn dùng soft delete
+            ->take(1000)
+            ->get();
 
         $page = request()->get('page', 1);
         $perPage = $limit;
 
-        $data = new LengthAwarePaginator(
-            $filtered->forPage($page, $perPage),
-            $filtered->count(),
+        $data = new \Illuminate\Pagination\LengthAwarePaginator(
+            $results->forPage($page, $perPage),
+            $results->count(),
             $perPage,
             $page,
             ['path' => request()->url(), 'query' => request()->query()]
         );
+
         return $data;
     }
     public function add()

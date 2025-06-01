@@ -23,18 +23,5 @@ class AppServiceProvider extends ServiceProvider
         //
         Schema::defaultStringLength(191);
 
-        $client = new Client(config('scout.meilisearch.host'), config('scout.meilisearch.key'));
-
-        $client->index('products')->updateSettings([
-            'searchableAttributes' => ['name'],
-        ]);
-
-        $client->index('categories')->updateSettings([
-            'searchableAttributes' => ['name'],
-        ]);
-
-        $client->index('users')->updateSettings([
-            'searchableAttributes' => ['username', 'full_name', 'email'],
-        ]);
     }
 }

@@ -48,8 +48,9 @@ class ProductController
     public function result_search($keyword, $limit = 5)
     {
 
-
-        $ids = Product::search($keyword)->take(1000)->get()->pluck('id');
+        $ids = Product::where('name', 'like', '%' . $keyword . '%')
+            ->take(1000)
+            ->pluck('id');
 
         $rawResults = Product::whereIn('id', $ids)
             ->withSum('orderDetails as sold_quantity', 'quantity')
@@ -63,6 +64,7 @@ class ProductController
 
         $page = request()->get('page', 1);
         $perPage = $limit;
+
         $paginated = new \Illuminate\Pagination\LengthAwarePaginator(
             $filtered->forPage($page, $perPage),
             $filtered->count(),
