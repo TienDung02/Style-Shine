@@ -7,7 +7,8 @@ use Illuminate\Support\Facades\DB;
 
 class CreateUsersTable extends Migration
 {
-    public function up()
+    protected $engine = 'InnoDB';
+    public function up(): void
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         Schema::dropIfExists('users');
@@ -29,7 +30,7 @@ class CreateUsersTable extends Migration
         });
     }
 
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('admins');
     }
