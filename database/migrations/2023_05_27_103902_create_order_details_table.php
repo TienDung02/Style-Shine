@@ -25,8 +25,8 @@ return new class extends Migration
             $table->unsignedBigInteger('order_id');
             $table->unsignedBigInteger('product_id');
             $table->integer('quantity');
-            $table->integer('order_id');
-            $table->integer('product_id');
+            $table->unsignedBigInteger('order_id');
+            $table->unsignedBigInteger('product_id');
             $table->timestamps();
             $table->softDeletes();
         });

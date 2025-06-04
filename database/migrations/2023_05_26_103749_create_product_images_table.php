@@ -24,7 +24,7 @@ return new class extends Migration
             $table->id();
             $table->longText('image_url');
             $table->boolean('is_primary')->default(false);
-            $table->integer('product_id');
+            $table->unsignedBigInteger('product_id');
             $table->timestamps();
             $table->softDeletes();
         });
