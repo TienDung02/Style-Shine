@@ -24,8 +24,7 @@ return new class extends Migration
             $table->id();
             $table->longText('image_url');
             $table->boolean('is_primary')->default(false);
-            $table->unsignedBigInteger('product_id');
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
+            $table->integer('product_id');
             $table->timestamps();
             $table->softDeletes();
         });

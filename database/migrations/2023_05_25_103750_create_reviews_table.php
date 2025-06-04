@@ -23,8 +23,8 @@ return new class extends Migration
             $table->id();
             $table->float('rating');
             $table->text('comment');
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('product_id')->constrained()->onDelete('cascade');
+            $table->integer('user_id');
+            $table->integer('product_id');
             $table->timestamps();
             $table->softDeletes();
         });
