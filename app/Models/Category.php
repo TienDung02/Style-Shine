@@ -10,7 +10,7 @@ use Laravel\Scout\Searchable;
 class Category extends Model
 {
     /** @use HasFactory<\Database\Factories\CategoryFactory> */
-    use HasFactory, SoftDeletes, Searchable;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'parent_id',
