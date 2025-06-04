@@ -19,7 +19,7 @@ Route::post('/forgot-password-process', [ForgotPasswordController::class, 'forgo
 Route::get('/change-password', [ForgotPasswordController::class, 'change_password'])->name('change-password');
 Route::post('/admin-change-password-process', [ForgotPasswordController::class, 'update_password'])->name('update-password');
 
-//Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth'])->group(function () {
 
 // Change Password
     Route::get('/admin-change-sendMail', [ForgotPasswordController::class, 'change_password_sendMail'])->name('admin.password');
@@ -70,5 +70,5 @@ Route::post('/admin-change-password-process', [ForgotPasswordController::class, 
 
 // Logout
     Route::any('/logout', [LoginController::class, 'logout'])->name('logout');
-//});
+});
 
