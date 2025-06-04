@@ -14,7 +14,8 @@ class LoginController extends Controller
 {
     public function index()
     {
-        return view('auth.login.index');
+        $user = User::all();
+        return view('auth.login.index', compact('user'));
     }
     public function login(Request $request)
     {
