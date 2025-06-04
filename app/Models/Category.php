@@ -21,17 +21,6 @@ class Category extends Model
     protected $dates = ['deleted_at'];
 
 
-    public function searchableAs(): string
-    {
-        return 'categories';
-    }
-    public function toSearchableArray(): array
-    {
-        return [
-            'id' => $this->id,
-            'name' => $this->name,
-        ];
-    }
     public function children()
     {
         return $this->hasMany(Category::class, 'parent_id');

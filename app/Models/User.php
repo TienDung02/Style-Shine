@@ -49,18 +49,6 @@ class User extends Authenticatable
      * @return array<string, string>
      */
 
-    public function searchableAs(): string
-    {
-        return 'users';
-    }
-    public function toSearchableArray(): array
-    {
-        $array = $this->toArray();
-//        dd($this->all());
-
-        return $array;
-    }
-
     protected function casts(): array
     {
         return [
