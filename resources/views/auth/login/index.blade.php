@@ -22,7 +22,6 @@
         <div class="text-center">
             <a><img src="{{asset('backend/images/logo.jpg')}}" alt="" width="140" height="140"></a>
             <h1 class="text-white h3 mt-3">Account Login </h1>
-            <h2>{{dd($user)}}</h2>
         </div>
         <form class="mt-4" method="POST" action="{{route('login')}}">
             @csrf
