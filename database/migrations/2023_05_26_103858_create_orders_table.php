@@ -24,8 +24,7 @@ return new class extends Migration
             $table->decimal('total_price', 10, 2);
             $table->string('payment_method');
             $table->string('status');
-            $table->unsignedBigInteger('user_id')->default(1);
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->integer('user_id');
             $table->dateTime('payment_date');
             $table->timestamps();
             $table->softDeletes();
