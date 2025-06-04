@@ -22,17 +22,7 @@ class Product extends Model
     ];
     protected $dates = ['deleted_at'];
 
-    public function searchableAs(): string
-    {
-        return 'products';
-    }
-    public function toSearchableArray(): array
-    {
-        $array = $this->toArray();
-//        dd($this->all());
 
-        return $array;
-    }
     public function orderDetails()
     {
         return $this->hasMany(OrderDetail::class, 'product_id', 'id');
