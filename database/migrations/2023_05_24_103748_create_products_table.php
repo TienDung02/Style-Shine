@@ -23,8 +23,8 @@ return new class extends Migration
             $table->decimal('price', 8, 2);
             $table->string('quantity')->nullable();
             $table->text('description')->nullable();
-            $table->integer('category_id');
-            $table->integer('brand_id');
+            $table->unsignedBigInteger('category_id');
+            $table->unsignedBigInteger('brand_id');
             $table->timestamps();
             $table->softDeletes();
         });

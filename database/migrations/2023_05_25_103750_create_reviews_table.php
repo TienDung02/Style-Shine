@@ -23,8 +23,8 @@ return new class extends Migration
             $table->id();
             $table->float('rating');
             $table->text('comment');
-            $table->integer('user_id');
-            $table->integer('product_id');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('product_id');
             $table->timestamps();
             $table->softDeletes();
         });
