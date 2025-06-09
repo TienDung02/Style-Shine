@@ -7,7 +7,7 @@ use App\Models\Category;
 use App\Models\OrderDetail;
 use App\Models\Product;
 use App\Models\ProductImage;
-use App\Models\User;
+use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -15,7 +15,7 @@ class UserController
 {
     public function index()
     {
-        $totalCustomers = User::where('role', 0)->count();
+        $totalCustomers = Customer::where('role', 0)->count();
         $data = DB::table('order_details')
             ->join('orders', 'order_details.order_id', '=', 'orders.id')
             ->join('users', 'orders.user_id', '=', 'users.id')

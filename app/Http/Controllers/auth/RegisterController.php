@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -30,14 +30,14 @@ class RegisterController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        $existingUser = User::where('email', $request->email)->first();
+        $existingUser = Customer::where('email', $request->email)->first();
 
         if ($existingUser) {
             return redirect()->back()->withErrors(['email' => 'This email is already registered.'])->withInput();
         }
 
         // Nếu chưa tồn tại, thêm user mới vào database
-        $user = User::create([
+        $user = Customer::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),

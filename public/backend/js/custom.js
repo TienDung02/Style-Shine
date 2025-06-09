@@ -374,8 +374,8 @@ $(function() {
         // Xử lý active class cho các nút Best Selling
         $('.list-inline-bestSelling a').on('click', function(e) {
             e.preventDefault();
-            $('.list-inline-bestSelling li').removeClass('active-chart-main'); // Sửa class active
-            $(this).parent().addClass('active-chart-main');
+            $('.list-inline-bestSelling li').removeClass('active-chart-bestSelling'); // Sửa class active
+            $(this).parent().addClass('active-chart-bestSelling');
         });
     });
 
@@ -696,7 +696,28 @@ $(function() {
     /*  End Rating
     /*----------------------------------------------------*/
 
+    $(document).ready(function() {
+        $('#time_period_select').change(function() {
+            var selectedValue = $(this).val();
 
+            if (selectedValue) {
+                $.ajax({
+                    url: $('#get_change_time').attr('data-url'),
+                    method: 'GET',
+                    data: {
+                        time_period: selectedValue
+                    },
+                    success: function(response) {
+                        $('#top-customers-table-container').html(response);
+                        console.log('Bảng đã được cập nhật thành công.');
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Đã xảy ra lỗi:', error);
+                    }
+                });
+            }
+        });
+    });
 
 
     //------------------------------------------------------------------------------//

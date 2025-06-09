@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Models\Customer;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -35,7 +35,7 @@ class ForgotPasswordController extends Controller
 
 
         $email = $request->input("email");
-        $admin = User::where('email', $email)->first();
+        $admin = Customer::where('email', $email)->first();
         if (!$admin) {
             Session::put('alert_email_not_exist', [
                 'alert__text' => '',
@@ -118,12 +118,12 @@ class ForgotPasswordController extends Controller
             ]);
             return redirect()->route('change-password');
         }
-        $admin = User::where('email', $infoAdmin['email'])->first();
+        $admin = Customer::where('email', $infoAdmin['email'])->first();
         if (!$admin) {
             Session::put('alert_change_password', [
                 'alert_type' => 'error',
                 'alert_title' => 'Update fail',
-                'alert_text' => 'User does not exist.',
+                'alert_text' => 'Customer does not exist.',
                 'alert_reload' => 'true',
             ]);
             return redirect()->back();
@@ -154,7 +154,7 @@ class ForgotPasswordController extends Controller
         $user = Auth::user();
 
         $email = $request->input("email");
-        $admin = User::where('email', $email)->first();
+        $admin = Customer::where('email', $email)->first();
 
         $otp = mt_rand(100000, 999999);
 

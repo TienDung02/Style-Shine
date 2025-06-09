@@ -9,18 +9,19 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Order extends Model
 {
     /** @use HasFactory<\Database\Factories\OrderFactory> */
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
-
+    protected $table = 'invoice';
     protected $fillable = [
-        'total_price',
+        'id',
+        'delivery_status',
          'payment_method',
-         'user_id',
+         'total_price',
+         'username',
     ];
-    protected $dates = ['deleted_at'];
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id', 'id');
+        return $this->belongsTo(Customer::class, 'username', 'username');
     }
 
     public function details()

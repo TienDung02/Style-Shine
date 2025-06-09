@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -22,7 +22,7 @@ class GoogleLoginController extends Controller
         $googleUser = Socialite::driver('google')->user();
 
         // Kiểm tra xem user đã tồn tại theo email chưa
-        $existingUser = User::where('email', $googleUser->email)->first();
+        $existingUser = Customer::where('email', $googleUser->email)->first();
 
         if ($existingUser) {
             // Nếu đã có user, cập nhật thông tin
@@ -34,7 +34,7 @@ class GoogleLoginController extends Controller
             $user = $existingUser;
         } else {
             // Nếu chưa có, tạo user mới
-            $user = new User();
+            $user = new Customer();
             $user->provider_id = $googleUser->id;
             $user->provider = 'google';
             $user->name = $googleUser->name;

@@ -9,18 +9,19 @@ use Laravel\Scout\Searchable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Product extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
-
+    protected $table = 'product';
+    protected $primaryKey = 'id_product';
     protected $fillable = [
-        'name',
+        'name_product',
         'price',
         'quantity',
         'description',
-        'category_id',
-        'brand_id',
+        'id_category',
+        'image_url',
+        'brand',
     ];
-    protected $dates = ['deleted_at'];
 
 
     public function orderDetails()

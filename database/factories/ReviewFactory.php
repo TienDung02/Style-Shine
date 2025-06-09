@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Review;
-use App\Models\User;
+use App\Models\Customer;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -16,7 +16,7 @@ class ReviewFactory extends Factory
         return [
             'rating' => $this->faker->numberBetween(1, 5),
             'comment' => $this->faker->sentence(),
-            'user_id' => User::inRandomOrder()->first()->id,
+            'user_id' => Customer::inRandomOrder()->first()->id,
             'product_id' => Product::inRandomOrder()->first()->id,
         ];
     }

@@ -3948,7 +3948,7 @@ list and media
   padding: 15px; }
 
 /*******************
-User card page
+Customer card page
 ******************/
 .el-element-overlay .white-box {
   padding: 0px; }
@@ -5691,7 +5691,7 @@ Email: niravjoshi87@gmail.com
 File: scss
 */
 /*******************
-/*User mail widgets*/
+/*Customer mail widgets*/
 /*******************/
 .topbar .top-navbar .mailbox {
   width: 300px; }
@@ -8072,7 +8072,7 @@ input[type=checkbox]:not(:disabled).tabbed:focus ~ .lever::after {
 #salesChart {
     padding: 10px;
     height: 430px !important;
-    width: 950px !important;
+    width: 1100px !important;
 }
 .list-inline-main .active-chart-main{
     background-image: linear-gradient(to right, #0d9aff, #ff6d23);

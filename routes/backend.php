@@ -31,9 +31,10 @@ Route::post('/admin-change-password-process', [ForgotPasswordController::class, 
     Route::get('/home', [DashboardController::class, 'index'])->name('admin.dashboard.index');
     Route::get('/dashboard/data', [DashboardController::class, 'getStatsData'])->name('dashboard.data');
     Route::get('/stats/best-selling', [DashboardController::class, 'bestSelling'])->name('dashboard.bestSelling');
+    Route::get('/stats/top-customer', [DashboardController::class, 'TopCustomer'])->name('dashboard.topCustomer');
 
 
-// User
+// Customer
     Route::get('/user', [UserController::class, 'index'])->name('admin.user');
     Route::get('user/paginate-limit', [UserController::class, 'getLimit'])->name('admin.user.limit');
     Route::get('/user/search', [UserController::class, 'search'])->name('admin.user.search');
@@ -70,12 +71,7 @@ Route::post('/admin-change-password-process', [ForgotPasswordController::class, 
 
 // Logout
     Route::any('/logout', [LoginController::class, 'logout'])->name('logout');
+
+
 //});
 
-Route::get('/check-ssl-ca', function () {
-    $path = base_path(env('DB_SSL_CA'));
-    return response()->json([
-        'path' => $path,
-        'exists' => file_exists($path),
-    ]);
-});
