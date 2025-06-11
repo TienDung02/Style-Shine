@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Models\Customer;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,26 +22,19 @@ class LoginController extends Controller
             'username' => 'required|string',
             'password' => 'required|string',
         ]);
-        $credentials = $request->only('username', 'password');
-
-        if (Auth::attempt($credentials)) {
+        $user = Customer::where('username', $request->username)->first();
+        if ($user && $user->PASSWORD === $request->password) {
+            Auth::guard('customers')->login($user);
             $request->session()->regenerate();
-            $user = Auth::user();
-            if ($user->role === 1) {
-                return redirect()->route('admin.dashboard.index');
-            } else {
-                Session::put('alert_login_fail', [
-                    'alert__text' => 'You are not authorized to access this site.',
-                ]);
-                return back()->withErrors([
-                ])->onlyInput('username');
-            }
+            return redirect()->route('admin.dashboard.index');
         }
+
         Session::put('alert_login_fail', [
-            'alert__text' => 'Username or password incorrect',
+            'alert__text' => 'Tên đăng nhập hoặc mật khẩu không đúng',
         ]);
-        return back()->withErrors([
-        ])->onlyInput('username');
+
+        return back()->withErrors([])->onlyInput('username');
+
     }
     public function logout(Request $request)
     {

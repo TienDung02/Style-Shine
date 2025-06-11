@@ -15,23 +15,26 @@
                 <div class="row">
                     <!-- column -->
                     <div class="col-lg-6 m-auto">
-                        <div class="review-container p-50">
-                            <div class="review  ">
+                        <div class="review-container pt-0 p-50 ">
+                            <div class="d-flex justify-content-end">
+                                <a class="text-decoration-underline" href="{{route('generate.receipt', $order->id)}}">Print PDF</a>
+                            </div>
+
+                            <div class="review">
                                <h3>Order Receipt</h3>
                             </div>
                             <div class="m-t-20  ms-3">
                                 <div class="d-flex row">
-                                    <div class="col-6 d-flex"><h6>Customer Name: &nbsp;</h6>{{$order->user->full_name}}</div>
+                                    <div class="col-6 d-flex"><h6>Customer Name: &nbsp;</h6>{{$order->CUS_NAME}}</div>
                                     <div class="col-6 d-flex"><h6>Seller: &nbsp; </h6>Style & Shine</div>
                                 </div>
                                 <div class="m-t-10 d-flex">
-                                    <h6>Shipping Address: &nbsp;</h6>{{$order->user->address}}
+                                    <h6>Shipping Address: &nbsp;</h6>{{$order->ADDRESS}}
                                 </div>
                             </div>
                             <div class="m-t-20 d-flex px-3 row ">
                                     <div class="col-3"><h6>Order ID</h6>{{$order->id}}</div>
                                     <div class="col-3"><h6>Order Date</h6>{{$order->created_at}}</div>
-                                    <div class="col-3"><h6>Payment Date</h6>{{$order->payment_date}}</div>
                                     <div class="col-3"><h6>Payment Method</h6>{{$order->payment_method}}</div>
                             </div>
                             <div class="m-t-20  ">
@@ -47,7 +50,7 @@
                                     <tr>
                                         <th>No.</th>
                                         <th>Product Name</th>
-                                        <th>Price ($)</th>
+                                        <th>Price (VND)</th>
                                         <th>Quantity</th>
                                     </tr>
                                     </thead>
@@ -57,10 +60,10 @@
                                     @endphp
                                     @foreach($data as $detail)
                                         <tr>
-                                            <td><a href="{{ route('admin.product.edit', $detail->product->id) }}" style="display: block; color: inherit; text-decoration: none;">{{$count}}</td>
-                                            <td><a href="{{ route('admin.product.edit', $detail->product->id) }}" style="display: block; color: inherit; text-decoration: none;">{{$detail->product->name}}</td>
-                                            <td><a href="{{ route('admin.product.edit', $detail->product->id) }}" style="display: block; color: inherit; text-decoration: none;">{{$detail->product->price}}</td>
-                                            <td><a href="{{ route('admin.product.edit', $detail->product->id) }}" style="display: block; color: inherit; text-decoration: none;">{{$detail->quantity}}</td>
+                                            <td><a href="{{ route('admin.product.edit', $detail->product->ID_PRODUCT) }}" style="display: block; color: inherit; text-decoration: none;">{{$count}}</td>
+                                            <td><a href="{{ route('admin.product.edit', $detail->product->ID_PRODUCT) }}" style="display: block; color: inherit; text-decoration: none;">{{$detail->product->NAME_PRODUCT}}</td>
+                                            <td><a href="{{ route('admin.product.edit', $detail->product->ID_PRODUCT) }}" style="display: block; color: inherit; text-decoration: none;">{{ number_format($detail->product->PRICE, 0, '', '.') }}</td>
+                                            <td><a href="{{ route('admin.product.edit', $detail->product->ID_PRODUCT) }}" style="display: block; color: inherit; text-decoration: none;">{{$detail->quantity}}</td>
                                             @php
                                                 $count++;
                                             @endphp
@@ -76,9 +79,9 @@
                                     <div><h6>Total Payment: </h6></div>
                                 </div>
                                 <div>
-                                    <div><h6>{{$order->total_price}}$</h6> </div>
-                                    <div><h6>2$</h6> </div>
-                                    <div><h6>{{$order->total_price + 2}}</h6></div>
+                                    <div><h6>{{ number_format($order->total_price, 0, '', '.') }}&nbsp;(VND)</h6> </div>
+                                    <div><h6>30.000&nbsp;(VND)</h6> </div>
+                                    <div><h6>{{number_format( $order->total_price + 30000, 0, '', '.')}}&nbsp;(VND)</h6></div>
                                 </div>
                             </div>
                         </div>

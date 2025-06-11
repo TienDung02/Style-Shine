@@ -3948,7 +3948,7 @@ list and media
   padding: 15px; }
 
 /*******************
-User card page
+Customer card page
 ******************/
 .el-element-overlay .white-box {
   padding: 0px; }
@@ -5691,7 +5691,7 @@ Email: niravjoshi87@gmail.com
 File: scss
 */
 /*******************
-/*User mail widgets*/
+/*Customer mail widgets*/
 /*******************/
 .topbar .top-navbar .mailbox {
   width: 300px; }
@@ -8072,7 +8072,7 @@ input[type=checkbox]:not(:disabled).tabbed:focus ~ .lever::after {
 #salesChart {
     padding: 10px;
     height: 430px !important;
-    width: 950px !important;
+    /*width: 1100px !important;*/
 }
 .list-inline-main .active-chart-main{
     background-image: linear-gradient(to right, #0d9aff, #ff6d23);
@@ -8436,10 +8436,19 @@ h2 {
 .rating-score {
     text-align: center;
 }
+#score{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-.rating-score .score {
+.rating-score .score p{
     font-size: 32px;
     font-weight: bold;
+}
+.rating-score .score div{
+    height: 28px;
+    margin-left: 5px;
 }
 
 .stars {
@@ -8462,8 +8471,11 @@ h2 {
     margin-bottom: 5px;
 }
 
+.rating-row span.rating-percent {
+    width: 60px;
+}
 .rating-row span {
-    width: 30px;
+    width: 35px;
 }
 
 .progress-bar {
@@ -8679,7 +8691,59 @@ h2 {
     top: calc(100% - 0.25em);
     left: 0;
 }
+.avatar-review{
 
+}
+
+.avatar-review img{
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+}
+
+
+/*-----------------------------------*/
+.many-rating {
+    --rating-filled-color: #fc8f54;
+    --rating-unfilled-color: #d8d2c2;
+
+    --star-icon: url("https://api.iconify.design/material-symbols:star-rounded.svg");
+    --star-width: 24px;
+    --star-height: 24px;
+
+    /* Gap between stars. Max value is ( star-width / 2 ) - 1px */
+    /* Example: if star size is 24x24, max gap will be 11px */
+    /* --stars-gap: 15px; */
+
+    --rating-container: calc(5 * var(--star-width) + var(--stars-gap, 0px));
+
+    display: inline-flex;
+    width: var(--rating-container);
+    height: var(--star-height);
+    mask-image: var(--star-icon);
+    mask-repeat: round;
+    mask-size: contain;
+    background-color: var(--rating-unfilled-color);
+}
+
+
+
+.many-rating--sm {
+    --star-width: 14px;
+    --star-height: 14px;
+}
+
+
+.many-rating-wrapper {
+    padding: 5px 0px;
+    border-radius: 8px;
+    background-color: #fff;
+    display: grid;
+    gap: 8px;
+}
+.review-paginate .pagination1{
+    display: none;
+}
 
 /*----------------------------------------------------*/
 /*  End Review

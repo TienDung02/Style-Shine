@@ -5,64 +5,60 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use App\Models\Product;
+use Carbon\Carbon;
 class DashboardController
 {
     public function index()
     {
-        // Lấy top 5 khách hàng
-        $topCustomers = DB::table('order_details')
-            ->join('orders', 'order_details.order_id', '=', 'orders.id')
-            ->join('users', 'orders.user_id', '=', 'users.id')
+        $date = Carbon::now();
+        $topCustomers = DB::table('invoice_detail')
+            ->join('invoice', 'invoice_detail.invoice_id', '=', 'invoice.id')
+            ->join('customer', 'invoice.username', '=', 'customer.username')
             ->select(
-                'users.id',
-                'users.full_name',
-                DB::raw('SUM(order_details.quantity) as total_quantity'),
-                DB::raw('(SELECT MAX(invoices2.created_at) FROM orders as invoices2 WHERE invoices2.user_id = users.id) as last_purchase_date')
+                'customer.username',
+                'customer.cus_name',
+                DB::raw('SUM(invoice_detail.quantity) as total_quantity'),
+                DB::raw('(SELECT MAX(invoices2.created_at) FROM invoice as invoices2 WHERE invoices2.username = customer.username) as last_purchase_date')
             )
-            ->groupBy('users.id', 'users.full_name')
+            ->groupBy('customer.username', 'customer.cus_name')->whereMonth('created_at', $date->month)
             ->orderByDesc('total_quantity')
             ->limit(5)
             ->get();
 
-        // Lấy tổng số sản phẩm
-        $totalProducts = Product::count(); // Đảm bảo Product model đã được import
+        $totalProducts = Product::count();
 
-        // Lấy danh sách các năm có trong bảng orders
-        $years = DB::table('orders')
+        $years = DB::table('invoice')
             ->select(DB::raw('YEAR(created_at) as year'))
             ->distinct()
-            ->orderBy('year', 'desc') // Sắp xếp giảm dần để năm mới nhất ở đầu dropdown
+            ->orderBy('year', 'desc')
             ->pluck('year');
 
-        // Chuẩn bị dữ liệu biểu đồ mặc định (ví dụ: theo tháng của năm hiện tại)
-        $currentYear = date('Y'); // Lấy năm hiện tại
+        $currentYear = date('Y');
         $monthlyData = Order::select(
             DB::raw('MONTH(created_at) as period'),
             DB::raw('SUM(total_price) as total')
         )
-            ->whereYear('created_at', $currentYear) // Lọc dữ liệu theo năm hiện tại
+            ->whereYear('created_at', $currentYear)
             ->groupBy(DB::raw('MONTH(created_at)'))
             ->orderBy('period', 'asc')
             ->get();
 
-        // Chuẩn bị mảng labels và totals cho JavaScript (đảm bảo đủ 12 tháng)
         $initialLabels = range(1, 12);
-        $initialTotals = array_fill(1, 12, 0); // Khởi tạo với 0 cho tất cả 12 tháng
+        $initialTotals = array_fill(1, 12, 0);
         foreach ($monthlyData as $revenue) {
             $initialTotals[$revenue->period] = (float)$revenue->total;
         }
 
-        // Đóng gói dữ liệu biểu đồ ban đầu thành một array để truyền sang JS
         $initialChartData = [
             'labels' => $initialLabels,
-            'totals' => array_values($initialTotals) // Lấy giá trị của mảng
+            'totals' => array_values($initialTotals)
         ];
 
         return view('backend.dashboard.index', compact(
             "totalProducts",
             "topCustomers",
             "years",
-            "initialChartData" // Truyền dữ liệu biểu đồ ban đầu
+            "initialChartData"
         ));
     }
     public function getStatsData(Request $request)
@@ -133,13 +129,8 @@ class DashboardController
 
     public function bestSelling(Request $request)
     {
-//        dd($request->all());
         $type = $request->input('type', 'month');
         $selectedYear = $request->input('year');
-
-
-
-
 
         $orderQuery = Order::query();
         if (!empty($selectedYear)) {
@@ -147,8 +138,6 @@ class DashboardController
         }
 
         $filteredOrderIds = $orderQuery->pluck('id')->toArray();
-
-//        dd($filteredOrderIds);
 
         if (empty($filteredOrderIds) && !empty($selectedYear)) {
             return response()->json([]);
@@ -168,35 +157,32 @@ class DashboardController
         } else {
             return response()->json(['error' => 'Invalid type'], 400);
         }
-        $totalAllQuery = DB::table('order_details')
-            ->join('orders', 'orders.id', '=', 'order_details.order_id')
-            ->whereIn('orders.id', $filteredOrderIds);
-
+        $totalAllQuery = DB::table('invoice_detail')
+            ->join('invoice', 'invoice.id', '=', 'invoice_detail.invoice_id')
+            ->whereIn('invoice.id', $filteredOrderIds);
         if ($start && $end) {
-            $totalAllQuery->whereBetween('orders.created_at', [$start, $end]);
+            $totalAllQuery->whereBetween('invoice.created_at', [$start, $end]);
         }
 
-        $totalAll = $totalAllQuery->sum('order_details.quantity');
+        $totalAll = $totalAllQuery->sum('invoice_detail.quantity');
 
         if ($totalAll == 0) {
             return response()->json([]);
         }
-
-        $topProductsQuery = DB::table('order_details')
-            ->join('products', 'products.id', '=', 'order_details.product_id')
-            ->join('orders', 'orders.id', '=', 'order_details.order_id')
-            ->whereIn('orders.id', $filteredOrderIds);
+        $topProductsQuery = DB::table('invoice_detail')
+            ->join('product', 'product.id_product', '=', 'invoice_detail.product_id')
+            ->join('invoice', 'invoice.id', '=', 'invoice_detail.invoice_id')
+            ->whereIn('invoice.id', $filteredOrderIds);
 
         if ($start && $end) {
-            $topProductsQuery->whereBetween('orders.created_at', [$start, $end]);
+            $topProductsQuery->whereBetween('invoice.created_at', [$start, $end]);
         }
 
-        $topProducts = $topProductsQuery->select('products.name', DB::raw('SUM(order_details.quantity) as total'))
-            ->groupBy('products.name')
+        $topProducts = $topProductsQuery->select('product.name_product', DB::raw('SUM(invoice_detail.quantity) as total'))
+            ->groupBy('product.name_product')
             ->orderByDesc('total')
             ->limit(5)
             ->get();
-//        dd($topProductsQuery);
 
         $topFormatted = [];
         $topTotalPercent = 0;
@@ -205,7 +191,7 @@ class DashboardController
             $percent = round($item->total / $totalAll * 100, 2);
             $topTotalPercent += $percent;
             $topFormatted[] = [
-                'name' => $item->name,
+                'name' => $item->name_product,
                 'percent' => $percent
             ];
         }
@@ -225,11 +211,42 @@ class DashboardController
                 ];
             }
         }
-
-
         return response()->json($topFormatted);
     }
-
-
-
+    public function TopCustomer(Request $request)
+    {
+        $now = now();
+        $time = $request->time_period;
+//        if ($time === 'month') {
+//            $time = $date->month;
+//        } elseif ($time === 'quarter') {
+//            $time = $date->quarter;
+//        } elseif ($time === 'year') {
+//            $time = $date->year;
+//        }
+        if ($time === 'month') {
+            $start = $now->copy()->startOfMonth();
+            $end = $now->copy()->endOfMonth();
+        } elseif ($time === 'quarter') {
+            $start = $now->copy()->firstOfQuarter();
+            $end = $now->copy()->lastOfQuarter();
+        } elseif ($time === 'year') {
+            $start = $now->copy()->firstOfYear();
+            $end = $now->copy()->lastOfYear();
+        }
+        $topCustomers = DB::table('invoice_detail')
+            ->join('invoice', 'invoice_detail.invoice_id', '=', 'invoice.id')
+            ->join('customer', 'invoice.username', '=', 'customer.username')
+            ->select(
+                'customer.username',
+                'customer.cus_name',
+                DB::raw('SUM(invoice_detail.quantity) as total_quantity'),
+                DB::raw('(SELECT MAX(invoices2.created_at) FROM invoice as invoices2 WHERE invoices2.username = customer.username) as last_purchase_date')
+            )
+            ->groupBy('customer.username', 'customer.cus_name')->whereBetween('invoice.created_at', [$start, $end])
+            ->orderByDesc('total_quantity')
+            ->limit(5)
+            ->get();
+        return view('backend.dashboard.ajax.top-customer', compact('topCustomers'));
+    }
 }

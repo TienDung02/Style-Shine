@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Order; // Đảm bảo bạn đã tạo Order Model
-use App\Models\User;  // Đảm bảo bạn có User Model (Laravel mặc định có)
+use App\Models\Customer;  // Đảm bảo bạn có Customer Model (Laravel mặc định có)
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class OrderFactory extends Factory
@@ -25,9 +25,9 @@ class OrderFactory extends Factory
         $statuses = ['paid', 'unpaid', 'shipping', 'preparing', 'delivered', 'cancelled'];
         $paymentMethods = ['Cash', 'Credit Card', 'Bank Transfer', 'MoMo', 'ZaloPay'];
 
-        $userId = User::inRandomOrder()
+        $userId = Customer::inRandomOrder()
             ->where('role', '!=', 1)
-            ->first()?->id ?? User::factory()->create()->id;
+            ->first()?->id ?? Customer::factory()->create()->id;
 
 
         return [

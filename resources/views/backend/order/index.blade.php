@@ -63,18 +63,15 @@
                                             <colgroup>
                                                 <col width="100">
                                                 <col>
-                                                <col width="300">
-                                                <col width="210">
-                                                <col width="210">
+                                                <col>
+                                                <col>
                                                 <col width="220">
-                                                <col >
                                             </colgroup>
                                             <thead>
                                             <tr>
                                                 <th>#</th>
                                                 <th>Customer Name</th>
                                                 <th>Payment Method</th>
-                                                <th>Status</th>
                                                 <th>Price ($)</th>
                                                 <th>Date</th>
                                                 <th>Action</th>
@@ -90,11 +87,10 @@
                                             @foreach($data as $order)
                                                 <tr>
                                                     <td>{{$order->id}}</td>
-                                                    <td>{{$order->full_name ?? $order->user->full_name}}</td>
+                                                    <td>{{$order->username}}</td>
                                                     <td>{{$order->payment_method}}</td>
-                                                    <td>{{$order->status}}</td>
                                                     <td>{{$order->total_price}}</td>
-                                                    <td>{{ \Carbon\Carbon::parse($order->updated_at)->format('d-m-Y') }}</td>
+                                                    <td>{{ \Carbon\Carbon::parse($order->created_at)->format('d-m-Y') }}</td>
                                                         <td class="d-flex btn-action">
                                                         <a href="{{ route('admin.order.view', $order->id) }}" class="me-3">
                                                             <button type="submit" class="btn btn-info text-white">View Detail</button>

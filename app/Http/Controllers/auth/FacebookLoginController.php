@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -22,7 +22,7 @@ class FacebookLoginController extends Controller
         $facebookUser = Socialite::driver('facebook')->user();
 
         // Kiểm tra user có tồn tại theo email chưa
-        $existingUser = User::where('email', $facebookUser->email)->first();
+        $existingUser = Customer::where('email', $facebookUser->email)->first();
 
         if ($existingUser) {
             // Nếu user đã tồn tại, cập nhật thông tin
@@ -34,7 +34,7 @@ class FacebookLoginController extends Controller
             $user = $existingUser;
         } else {
             // Nếu user chưa tồn tại, tạo mới
-            $user = new User();
+            $user = new Customer();
             $user->provider_id = $facebookUser->id;
             $user->provider = 'facebook';
             $user->name = $facebookUser->name;

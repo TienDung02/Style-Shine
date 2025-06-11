@@ -60,8 +60,7 @@
 
                                             <colgroup>
                                                 <col width="150">
-                                                <col width="400">
-                                                <col width="400">
+                                                <col width="800">
                                                 <col>
                                                 <col width="300">
                                             </colgroup>
@@ -69,7 +68,6 @@
                                             <tr>
                                                 <th>#</th>
                                                 <th>Name</th>
-                                                <th>Parent</th>
                                                 <th>Products</th>
                                                 <th>Action</th>
                                             </tr>
@@ -86,36 +84,30 @@
 
                                             @foreach($data as $category)
                                                 <tr>
-                                                    <td>{{$category->id}}</td>
-                                                    <td>{{$category->name}}</td>
-                                                    <td> {{ $category->parent?->name }}</td>
+                                                    <td>{{$category->ID}}</td>
+                                                    <td>{{$category->NAME}}</td>
                                                     <td>{{$category->products->count() ?? 0}}</td>
                                                     <td class="d-flex btn-action">
                                                         <a  class="me-3">
 {{--                                                            <button type="submit" class="btn btn-secondary">Update</button>--}}
-                                                            <span id="update_category" data-url="{{ route('admin.category.update', $category->id) }}"> </span>
-
+{{--                                                            <span id="update_category" data-url="{{ route('admin.category.update', $category->ID) }}"> </span>--}}
                                                             <button
                                                                 class="btn btn-secondary btn-edit"
-                                                                data-id="{{ $category->id }}"
-                                                                data-name="{{ $category->name }}"
-                                                                data-parent="{{ $category->parent_id }}"
+                                                                data-id="{{ $category->ID }}"
+                                                                data-name="{{ $category->NAME }}"
                                                                 data-bs-toggle="modal"
-                                                                data-bs-target="#categoryModal"
-                                                            >
+                                                                data-bs-url="{{ route('admin.category.update', $category->ID) }}"
+                                                                data-bs-target="#categoryModal" >
                                                                 Update
                                                             </button>
-
                                                         </a>
 
-
-
-                                                        <form id='delete-form-{{ $category->id }}'
-                                                              action="{{ route('admin.category.destroy', $category->id) }}" method="POST">
+                                                        <form id='delete-form-{{ $category->ID }}'
+                                                              action="{{ route('admin.category.destroy', $category->ID) }}" method="POST">
                                                             @csrf
                                                             @method('DELETE')
                                                             <button type="button" class="btn btn-danger btn-delete"
-                                                                    data-id="{{ $category->id }}">Delete
+                                                                    data-id="{{ $category->ID }}">Delete
                                                             </button>
                                                         </form>
                                                     </td>
@@ -162,15 +154,6 @@
                                             <div class="mb-3">
                                                 <label class="form-label">Tên danh mục</label>
                                                 <input type="text" name="name" id="category-name" class="form-control" required>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label class="form-label">Danh mục cha</label>
-                                                <select name="parent_id" id="category-parent" class="form-select">
-                                                    <option value="">-- Không có --</option>
-                                                    @foreach($all as $category)
-                                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                                    @endforeach
-                                                </select>
                                             </div>
                                         </div>
                                         <div class="modal-footer">

@@ -374,8 +374,8 @@ $(function() {
         // Xử lý active class cho các nút Best Selling
         $('.list-inline-bestSelling a').on('click', function(e) {
             e.preventDefault();
-            $('.list-inline-bestSelling li').removeClass('active-chart-main'); // Sửa class active
-            $(this).parent().addClass('active-chart-main');
+            $('.list-inline-bestSelling li').removeClass('active-chart-bestSelling'); // Sửa class active
+            $(this).parent().addClass('active-chart-bestSelling');
         });
     });
 
@@ -623,11 +623,11 @@ $(function() {
     $(document).on('click', '.btn-edit', function () {
         let id = $(this).data('id');
         let name = $(this).data('name');
-        let parent = $(this).data('parent');
 
         $('#modalTitle').text('Sửa danh mục');
-        let baseUrl = $('#update_category').data('url');
+        let baseUrl = $(this).data('url');
         $('#categoryForm').attr('action', baseUrl);
+        console.log(baseUrl)
         $('#form-method').val('PUT');
         $('#category-id').val(id);
         $('#category-name').val(name);
@@ -678,25 +678,84 @@ $(function() {
             const $star = $(this);
             const starRateValue = $star.css('--star-rate');
 
-            console.log(`Star ${index + 1}: --star-rate value is "${starRateValue}"`);
 
             if (starRateValue) {
                 const numericValue = parseFloat(starRateValue.replace('%', ''));
-                console.log(`Star ${index + 1}: Numeric value is ${numericValue}`);
             }
         });
 
         const $ratingTooltip = $('.tooltip.rating');
         if ($ratingTooltip.length) {
             const dataRating = $ratingTooltip.attr('data-rating');
-            console.log(`Data-rating on tooltip is: ${dataRating}`);
         }
     });
+
+    $(document).on('click', '.page-link',function() {
+        if ($(this).hasClass('disabled')) {
+            e.preventDefault();
+            return;
+        }
+        const fullUrl = $(this).data('href');
+        if (!fullUrl) return;
+
+
+        const urlParams = new URLSearchParams(fullUrl.split('?')[1]);
+        const keyword = urlParams.get('keyword');
+        var limit = urlParams.get('limit');
+        const page = urlParams.get('page');
+        if (!limit || isNaN(limit)) {
+            limit = 5;
+        }
+
+        $.ajax({
+            url: $('#get_limit').attr('data-url'),
+            type: 'GET',
+            data: {
+                'keyword': keyword,
+                'limit': limit,
+                'page': page,
+            },
+            success: function(data) {
+                var html = $(data).children();
+                $('#get-result-search').html(html);
+                var newUrl = new URL(window.location.href);
+                newUrl.searchParams.set('keyword', keyword);
+                newUrl.searchParams.set('limit', limit);
+                window.history.pushState({path: newUrl.href}, '', newUrl.href);
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+            }
+        });
+    });
+
+
     /*----------------------------------------------------*/
     /*  End Rating
     /*----------------------------------------------------*/
 
+    $(document).ready(function() {
+        $('#time_period_select').change(function() {
+            var selectedValue = $(this).val();
 
+            if (selectedValue) {
+                $.ajax({
+                    url: $('#get_change_time').attr('data-url'),
+                    method: 'GET',
+                    data: {
+                        time_period: selectedValue
+                    },
+                    success: function(response) {
+                        $('#top-customers-table-container').html(response);
+                        console.log('Bảng đã được cập nhật thành công.');
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Đã xảy ra lỗi:', error);
+                    }
+                });
+            }
+        });
+    });
 
 
     //------------------------------------------------------------------------------//

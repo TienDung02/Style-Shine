@@ -19,7 +19,7 @@ Route::post('/forgot-password-process', [ForgotPasswordController::class, 'forgo
 Route::get('/change-password', [ForgotPasswordController::class, 'change_password'])->name('change-password');
 Route::post('/admin-change-password-process', [ForgotPasswordController::class, 'update_password'])->name('update-password');
 
-Route::middleware(['auth'])->group(function () {
+//Route::middleware(['auth'])->group(function () {
 
 // Change Password
     Route::get('/admin-change-sendMail', [ForgotPasswordController::class, 'change_password_sendMail'])->name('admin.password');
@@ -31,9 +31,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/home', [DashboardController::class, 'index'])->name('admin.dashboard.index');
     Route::get('/dashboard/data', [DashboardController::class, 'getStatsData'])->name('dashboard.data');
     Route::get('/stats/best-selling', [DashboardController::class, 'bestSelling'])->name('dashboard.bestSelling');
+    Route::get('/stats/top-customer', [DashboardController::class, 'TopCustomer'])->name('dashboard.topCustomer');
 
 
-// User
+// Customer
     Route::get('/user', [UserController::class, 'index'])->name('admin.user');
     Route::get('user/paginate-limit', [UserController::class, 'getLimit'])->name('admin.user.limit');
     Route::get('/user/search', [UserController::class, 'search'])->name('admin.user.search');
@@ -59,6 +60,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('product/paginate-limit', [ProductController::class, 'getLimit'])->name('admin.product.limit');
     Route::get('/product/search', [ProductController::class, 'search'])->name('admin.product.search');
     Route::delete('product/delete/{product}', [ProductController::class, 'destroy'])->name('admin.product.destroy');
+    Route::get('/admin/product/export/csv', [ProductController::class, 'exportCSV'])->name('admin.product.export.csv');
 
 
 // Order
@@ -67,8 +69,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/order/search', [OrderController::class, 'search'])->name('admin.order.search');
     Route::delete('order/delete/{category}', [OrderController::class, 'destroy'])->name('admin.order.destroy');
     Route::get('/order/{order}/view', [OrderController::class, 'view'])->name('admin.order.view');
+    Route::get('/generate-receipt/{orderId}', [OrderController::class, 'generateReceipt'])->name('generate.receipt');
 
 // Logout
     Route::any('/logout', [LoginController::class, 'logout'])->name('logout');
-});
+
+
+//});
 

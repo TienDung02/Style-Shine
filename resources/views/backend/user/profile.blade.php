@@ -18,7 +18,7 @@
                     <div class="col-lg-4 col-xlg-3 col-md-5">
                         <div class="card">
                             <div class="card-block">
-                                <center class="m-t-30 p-b-20"> <img src="{{$user->avatar}}" class="img-circle" width="150" />
+                                <center class="m-t-30 p-b-20"> <img src="{{$user->avatar_url}}" class="img-circle" width="150" />
                                     <h4 class="card-title m-t-10">{{$user->username}}</h4>
                                     <h6 class="card-subtitle">{{$user->email}}</h6>
                                     <div class="row text-center justify-content-md-center">
@@ -37,7 +37,7 @@
                                     <div class="form-group">
                                         <label class="col-md-12">Full Name</label>
                                         <div class="col-md-12">
-                                            <input type="text" placeholder="Johnathan Doe" class="form-control form-control-line" value="{{$user->full_name}}" readonly>
+                                            <input type="text" placeholder="Johnathan Doe" class="form-control form-control-line" value="{{$user->cus_name}}" readonly>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -49,7 +49,7 @@
                                     <div class="form-group">
                                         <label class="col-md-12">Phone No</label>
                                         <div class="col-md-12">
-                                            <input type="text" placeholder="123 456 7890" value="{{$user->phone}}" class="form-control form-control-line" readonly>
+                                            <input type="text" placeholder="123 456 7890" value="{{$user->phone_number}}" class="form-control form-control-line" readonly>
                                         </div>
                                     </div>
                                     <div class="form-group">

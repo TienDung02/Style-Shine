@@ -62,7 +62,7 @@
                                                 <tr>
                                                     <td>{{$user->id}}</td>
                                                     <td>{{$user->username}}</td>
-                                                    <td>{{$user->full_name}}</td>
+                                                    <td>{{$user->cus_name}}</td>
                                                     <td>{{$user->email}}</td>
                                                     <td>{{$user->total_quantity}}</td>
                                                     <td class="d-flex btn-action">

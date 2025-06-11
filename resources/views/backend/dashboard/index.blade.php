@@ -24,7 +24,7 @@
                                         <div class="d-flex flex-wrap justify-content-between">
                                             <div>
                                                 <h3 class="card-title">Sales Overview</h3>
-                                                <h6 class="card-subtitle">Total Revenue ($)</h6>
+                                                <h6 class="card-subtitle">Total Revenue (VND)</h6>
                                             </div>
                                             <div class="select">
                                                 <select name="format" id="yearFormat">
@@ -71,7 +71,6 @@
                                         <h3 class="card-title">Best Selling Products</h3>
                                         <h6 class="card-subtitle">There are a total of {{$totalProducts}} products.</h6>
                                     </div>
-
                                 </div>
                                 <canvas height="380" width="480" id="bestSellingChart"></canvas>
                                 <span id="product-chart-url" data-url="{{ route('dashboard.bestSelling') }}"></span>
@@ -103,13 +102,21 @@
                     <div class="col-lg-12">
                         <div class="card p-20">
                             <div class="card-block">
-                                <div class="row">
+                                <div class="row d-flex justify-content-between">
                                     <div class="col-3">
                                         <h4 class="card-title">Potential customer statistics</h4>
                                         <h6 class="card-subtitle">Top 5 customers who bought the most</h6>
                                     </div>
+                                    <span class="d-none" id="get_change_time" data-url="{{route('dashboard.topCustomer')}}"></span>
+                                    <div class="col-1">
+                                        <select id="time_period_select">
+                                            <option value="month">Month</option>
+                                            <option value="quarter">Quarter</option>
+                                            <option value="year">Year</option>
+                                        </select>
+                                    </div>
                                 </div>
-                                <div class="table-responsive">
+                                <div class="table-responsive" id="top-customers-table-container">
                                     <table class="table">
                                         <thead>
                                         <tr>
@@ -124,7 +131,7 @@
                                         @foreach($topCustomers as $topCustomer)
                                             <tr>
                                                 <td>{{$count}}</td>
-                                                <td>{{$topCustomer->full_name}}</td>
+                                                <td>{{$topCustomer->cus_name}}</td>
                                                 <td>{{$topCustomer->total_quantity}}</td>
                                                 <td>{{ \Carbon\Carbon::parse($topCustomer->last_purchase_date)->format('d-m-Y') }}</td>
                                                 @php $count++ @endphp

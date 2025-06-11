@@ -4,14 +4,14 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Review;
-use App\Models\User;
+use App\Models\Customer;
 use App\Models\OrderDetail;
 
 class ReviewSeeder extends Seeder
 {
     public function run()
     {
-        $users = User::all();
+        $users = Customer::all();
 
         foreach ($users as $user) {
             $productIds = OrderDetail::whereHas('order', function ($q) use ($user) {

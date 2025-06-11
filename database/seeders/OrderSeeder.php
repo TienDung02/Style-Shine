@@ -6,13 +6,13 @@ use Illuminate\Database\Seeder;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Product;
-use App\Models\User;
+use App\Models\Customer;
 
 class OrderSeeder extends Seeder
 {
     public function run(): void
     {
-        $users = User::all();
+        $users = Customer::all();
         $products = Product::all();
 
         foreach ($users as $user) {

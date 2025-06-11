@@ -10,27 +10,22 @@ use Laravel\Scout\Searchable;
 class Category extends Model
 {
     /** @use HasFactory<\Database\Factories\CategoryFactory> */
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
+
+
+    public $timestamps = false;
+    protected $table = 'category';
+    protected $primaryKey = 'ID';
+    public $incrementing = true;
+    protected $keyType = 'int';
     protected $fillable = [
-        'parent_id',
         'name',
-        'create_at',
-        'update_at',
-        'deleted_at'];
-    protected $dates = ['deleted_at'];
+    ];
 
 
-    public function children()
-    {
-        return $this->hasMany(Category::class, 'parent_id');
-    }
-    public function parent()
-    {
-        return $this->belongsTo(category::class, 'parent_id');
-    }
     public function products(): HasMany
     {
-        return $this->hasMany(Product::class, 'category_id', 'id');
+        return $this->hasMany(Product::class, 'ID_CATEGORY', 'ID');
     }
 }

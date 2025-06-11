@@ -18,9 +18,10 @@
                         <div class="card">
                             <div class="card-block p-20">
                                 <h4 class="card-title p-b-30 text-center">Add Product</h4>
+{{--                                {{dd($product)}}--}}
                                 <form method="post" action="
                                         @if($product)
-                                            {{ route('admin.product.update', $product->id) }}
+                                            {{ route('admin.product.update', $product->ID_PRODUCT) }}
                                         @else
                                             {{ route('admin.product.store') }}
                                         @endif
@@ -43,59 +44,50 @@
                                                         </a>
                                                         <input id="fileInput2" name="image" class="file-img fileInput w-100 h-100" title="Choose file to upload" value=""   type="file">
                                                         <input name="avatar_old"
-                                                               value="{{ isset($product_image->image_url) ? $product_image->image_url : '' }}"
+                                                               value="{{ isset($product->image_url) ? $product->image_url : '' }}"
                                                                type="hidden">
                                                     </div>
                                                 </div>
-                                                <img id="image_product" class="border image-preview btn-select-img cursor-pointer" src="{{  isset($product_image->image_url) ? $product_image->image_url : '' }}">                                                     >
+                                                <img id="image_product" class="border image-preview btn-select-img cursor-pointer" src="{{$product->IMAGE_URL}}">
                                                 <h6>(reasonable size: 350px x 400px)</h6>
                                             </div>
                                             <div class="col-8">
                                                 <div class="w-100 mb-4">
                                                     <h5>Name</h5>
-                                                    <input type="text" name="name" class="w-100 form-control" value="{{ $product != '' ? $product->name : '' }}">
+                                                    <input type="text" name="name" class="w-100 form-control" value="{{ $product != '' ? $product->NAME_PRODUCT : '' }}">
                                                 </div>
                                                 <div class="w-100 mb-4 d-flex justify-content-between">
                                                     <div class="w-45">
                                                         <h5>Brand</h5>
-                                                        <select  class="w-100 form-control" name="brand">
-                                                            @foreach($brands as $brand)
-                                                                <option
-
-                                                                    @if($product != '')
-                                                                        {{$product->brand_id  == $brand->id ? 'selected' : ''}}
-                                                                    @endif
-
-                                                                    value="{{$brand->id}}">{{$brand->name}}</option>
-                                                            @endforeach
-                                                        </select>
+                                                        <input type="text" name="brand" class="w-100 form-control" value="{{ $product != '' ? $product->BRAND : '' }}">
                                                     </div>
                                                     <div class="w-45">
                                                         <label><h5>Price ($)</h5></label>
-                                                        <input type="number" name="price" class="w-100 form-control" value="{{ $product != '' ? $product->price : '' }}">
+                                                        <input type="number" name="price" class="w-100 form-control" value="{{ $product != '' ? $product->PRICE : '' }}">
                                                     </div>
                                                 </div>
                                                 <div class="w-100 mb-4 d-flex justify-content-between">
                                                     <div class="w-45">
+
                                                         <h5>Category</h5>
                                                         <select  class="w-100 form-control" name="category">
                                                             @foreach($categories as $category)
                                                                 <option
                                                                     @if($product != '')
-                                                                        {{$product->category_id  == $category->id ? 'selected' : ''}}
+                                                                        {{$product->ID_CATEGORY  == $category->ID ? 'selected' : ''}}
                                                                     @endif
-                                                                    value="{{$category->id}}">{{$category->name}}</option>
+                                                                    value="{{$category->ID}}">{{$category->NAME}}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
                                                     <div class="w-45">
                                                         <label><h5>Quantity</h5></label>
-                                                        <input type="number" name="quantity" class="w-100 form-control"value="{{ $product != '' ? $product->quantity : '' }}">
+                                                        <input type="number" name="quantity" class="w-100 form-control"value="{{ $product != '' ? $product->QUALITY : '' }}">
                                                     </div>
                                                 </div>
                                                 <div class="w-100">
                                                     <h5>Description</h5>
-                                                    <textarea class="w-100 form-control summernote" name="desc" style="height: 240px">{{ $product != '' ? $product->description : '' }}</textarea>
+                                                    <textarea class="w-100 form-control summernote" name="desc" style="height: 240px">{{ $product != '' ? $product->DESCRIPTION       : '' }}</textarea>
                                                 </div>
                                             </div>
                                         </div>
