@@ -9,24 +9,26 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Review extends Model
 {
     /** @use HasFactory<\Database\Factories\ReviewFactory> */
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
-
-
+    public $timestamps = false;
+    protected $table = 'review';
+    protected $primaryKey = 'ID';
+    public $incrementing = true;
+    protected $keyType = 'int';
     protected $fillable = [
         'rating',
         'comment',
-        'user_id',
-        'product_id',
+        'username',
+        'id_product',
     ];
-    protected $dates = ['deleted_at'];
 
     public function user()
     {
-        return $this->belongsTo(Customer::class, 'user_id', 'id');
+        return $this->belongsTo(Customer::class, 'username', 'username');
     }
     public function product()
     {
-        return $this->belongsTo(Product::class, 'product_id', 'id');
+        return $this->belongsTo(Product::class, 'id_product', 'id_product');
     }
 }

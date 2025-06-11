@@ -18,7 +18,11 @@ class Customer extends Authenticatable
      *
      * @var list<string>
      */
+    public $timestamps = false;
     protected $table = 'customer';
+    protected $primaryKey = 'ID';
+    public $incrementing = true;
+    protected $keyType = 'int';
     protected $fillable = [
         'username',
         'password',
@@ -35,7 +39,10 @@ class Customer extends Authenticatable
      *
      * @var list<string>
      */
-
+    public function order()
+    {
+        return $this->hasMany(Order::class, 'username', 'username');
+    }
 
     protected $hidden = [
         'password',

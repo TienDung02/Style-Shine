@@ -18,7 +18,7 @@ class CategoryController
     public function index()
     {
         $totalCategories = Category::count();
-        $data = Category::with(['parent', 'products'])->paginate(5);
+        $data = Category::with('products')->paginate(5);
         $all = Category::query()->get();
         return view('backend.category.index', compact("totalCategories", "data", "all"));
     }
@@ -48,8 +48,10 @@ class CategoryController
     }
     public function result_search($keyword, $limit = 5)
     {
+//        if ($keyword == null){
+//            $keyword = '';
+//        }
         $results = Category::where('name', 'like', '%' . $keyword . '%')
-            ->whereNull('deleted_at') // nếu bạn dùng soft delete
             ->take(1000)
             ->get();
 
@@ -90,12 +92,9 @@ class CategoryController
 
         $insert_category = new Category();
         $insert_category->name = $request->input('name');
-        $insert_category->parent_id = $request->input('parent_id') ?? ' ';
-
 
 
         if ($insert_category->save()) {
-            $insert_category->searchable();
             Session::put('alert_2', [
                 'alert_type' => 'success',
                 'alert_title' => 'Added category successfully!',
@@ -115,12 +114,10 @@ class CategoryController
     public function update(Request $request, $id)
     {
         $category = Category::findOrFail($id);
-
-        if ($request->filled('name')) $category->name = $request->input('name');
-        if ($request->has('parent_id')) $category->parent_id = $request->input('parent_id');
-
+//        dd($category);
+        if ($request->filled('name')) $category->NAME = $request->input('name');
+//        dd($category->isDirty(), $category->getDirty());
         if ($category->save()) {
-            $category->searchable();
             Session::put('alert_2', [
                 'alert_type' => 'success',
                 'alert_title' => 'Updated category successfully!',
@@ -140,6 +137,7 @@ class CategoryController
     public function destroy($id)
     {
         $category = Category::find($id);
+//        dd($category);
         if (!$category) {
             Session::put('alert_2', [
                 'alert_type' => 'error',
@@ -149,7 +147,6 @@ class CategoryController
             return redirect()->back();
         }
         if ($category->delete()) {
-            $category->searchable();
             Session::put('alert_2', [
                 'alert_type' => 'success',
                 'alert_title' => 'Deleted category successfully!',

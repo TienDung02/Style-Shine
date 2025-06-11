@@ -11,17 +11,19 @@ use App\Models\ProductImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade;
+use Barryvdh\DomPDF\PDF;
 class OrderController
 {
     public function index()
     {
         $total = Order::count();
-        $data = Order::query()->where('user_id','!=', 1)->paginate(5);
+        $data = Order::query()->paginate(5);
         return view('backend.order.index', compact("total", "data"));
     }
 
     public function getLimit (Request $request) {
-        $data = Order::query()->where('user_id','!=', 1);
+        $data = Order::query();
         $keyword = $request->keyword;
 
         $limit = $request->input('limit', 5);
@@ -37,18 +39,16 @@ class OrderController
         $keyword = $request->keyword;
         $limit = $request->limit ?? 5;
         if ($keyword == null) {
-            $data = DB::table('orders')
-                ->join('users', 'orders.user_id', '=', 'users.id')
+            $data = DB::table('invoice')
+                ->join('customer', 'invoice.username', '=', 'customer.username')
                 ->select(
-                    'orders.id',
-                    'orders.total_price',
-                    'orders.payment_method',
-                    'orders.status',
-                    'orders.updated_at',
-                    'users.full_name',
+                    'invoice.id',
+                    'invoice.total_price',
+                    'invoice.payment_method',
+                    'invoice.created_at',
+                    'customer.username',
                 )
-                ->where('users.role', 0)
-                ->orderBy('orders.id')
+                ->orderBy('invoice.id')
                 ->paginate($limit);
         }else{
             $data = $this->result_search($keyword, $limit);
@@ -57,30 +57,43 @@ class OrderController
     }
     public function result_search($keyword, $limit = 5)
     {
-        $data = DB::table('orders')
-            ->join('users', 'orders.user_id', '=', 'users.id')
+        $data = DB::table('invoice')
+            ->join('customer', 'invoice.username', '=', 'customer.username')
             ->select(
-                'orders.id',
-                'orders.total_price',
-                'orders.payment_method',
-                'orders.status',
-                'orders.updated_at',
-                'users.full_name',
+                'invoice.id',
+                'invoice.total_price',
+                'invoice.payment_method',
+                'invoice.created_at',
+                'customer.username',
             )
             ->where(function($query) use ($keyword) {
-                $query->where('users.full_name', 'like', "%$keyword%")
-                    ->orWhere('orders.payment_method', 'like', "%$keyword%")
-                    ->orWhere('orders.status', 'like', "%$keyword%");
+                $query->where('customer.username', 'like', "%$keyword%")
+                    ->orWhere('invoice.payment_method', 'like', "%$keyword%");
             })
-            ->where('users.role', 0)
-            ->orderBy('orders.id')
+            ->orderBy('invoice.id')
             ->paginate($limit);
         return $data;
     }
     public function view($id)
     {
-        $order = Order::query()->findOrFail($id);
-        $data = OrderDetail::query()->where('order_id', $id)->get();
+        $order = DB::table('invoice')
+            ->select('invoice.*', 'customer.*')
+            ->leftJoin('customer', 'invoice.username', '=', 'customer.username')
+            ->where('invoice.id', '=', $id)
+            ->first();
+        $data = OrderDetail::query()->where('invoice_id', $id)->get();
         return view('backend.order.view', compact('data', 'order'));
+    }
+
+    public function generateReceipt($id) {
+        $order = DB::table('invoice')
+            ->select('invoice.*', 'customer.*')
+            ->leftJoin('customer', 'invoice.username', '=', 'customer.username')
+            ->where('invoice.id', '=', $id)
+            ->first();
+        $data = OrderDetail::query()->where('invoice_id', $id)->get();
+//        return view('backend.order.ajax.receipt_partial', compact('data', 'order'));
+        $pdf = app(PDF::class)->loadView('backend.order.ajax.receipt_partial', compact('order', 'data'));
+        return $pdf->download('order_receipt_'.$id.'.pdf');
     }
 }

@@ -24,13 +24,16 @@
                                         <h4 class="card-title">Product</h4>
                                         <h6 class="card-subtitle">There are a total of  <code>{{$totalProducts}}</code> products.</h6>
                                     </div>
-                                    <div class="col-8 text-end">
+                                    <div class="col-7 text-end">
                                         <div class="w-80">
                                             <span id="url_search" data-url="{{ route('admin.product.search') }}"> </span>
                                             <form id="search-form" class="search" method="GET">
                                                 <input type="text" name="keyword" id="search-input" class="searchTerm" placeholder="What are you looking for?">
                                             </form>
                                         </div>
+                                    </div>
+                                    <div class="col-1">
+                                        <a href="{{ route('admin.product.export.csv') }}" class="btn btn-success mb-3">Export CSV</a>
                                     </div>
                                     <div class="col-1">
                                         <a id="add-new" href="{{route('admin.product.add')}}" class="btn waves-effect waves-light btn-warning hidden-md-down">Add New</a>
@@ -53,7 +56,7 @@
                                             <tr>
                                                 <th>#</th>
                                                 <th>Name</th>
-                                                <th>Price ($)</th>
+                                                <th>Price (VND)</th>
                                                 <th>Quantity</th>
                                                 <th>Quantity Sold</th>
                                                 <th>Rating</th>
@@ -69,10 +72,10 @@
                                             @endphp
                                             @foreach($data as $product)
                                                 <tr>
-                                                    <td>{{$product->id}}</td>
-                                                    <td>{{$product->name}}</td>
-                                                    <td>{{$product->price}}</td>
-                                                    <td>{{$product->quantity}}</td>
+                                                    <td>{{$product->ID_PRODUCT}}</td>
+                                                    <td>{{$product->NAME_PRODUCT}}</td>
+                                                    <td>{{$product->PRICE}}</td>
+                                                    <td>{{$product->QUALITY}}</td>
                                                     <td>{{$product->sold_quantity}}</td>
                                                     <td>
                                                         @if($product->reviews_avg_rating == 5)
@@ -82,22 +85,22 @@
                                                         @else
                                                             <i class="bi bi-star-half"></i>
                                                         @endif
-                                                        {{$product->reviews_avg_rating}}({{$product->reviews_count}})
+                                                        {{ round($product->reviews_avg_rating, 1) }}({{$product->reviews_count}})
                                                     </td>
                                                     <td class="d-flex btn-action">
-                                                        <a href="{{ route('admin.product.edit', $product->id) }}" class="me-3">
+                                                        <a href="{{ route('admin.product.edit', $product->ID_PRODUCT) }}" class="me-3">
                                                             <button type="submit" class="btn btn-secondary">Update</button>
                                                         </a>
-                                                        <form id='delete-form-{{ $product->id }}' class="me-3"
-                                                              action="{{ route('admin.product.destroy', $product->id) }}" method="POST">
+                                                        <form id='delete-form-{{ $product->ID_PRODUCT }}' class="me-3"
+                                                              action="{{ route('admin.product.destroy', $product->ID_PRODUCT) }}" method="POST">
                                                             @csrf
                                                             @method('DELETE')
                                                             <button type="button" style="height: 34px" class="btn btn-danger btn-delete"
-                                                                    data-id="{{ $product->id }}">Delete
+                                                                    data-id="{{ $product->ID_PRODUCT }}">Delete
                                                             </button>
                                                         </form>
 
-                                                        <a href="{{ route('admin.product.view', $product->id) }}" class="me-3">
+                                                        <a href="{{ route('admin.product.view', $product->ID_PRODUCT) }}" class="me-3">
                                                             <button type="submit" class="btn btn-info text-white">See Reviews</button>
                                                         </a>
                                                     </td>

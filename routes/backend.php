@@ -60,6 +60,7 @@ Route::post('/admin-change-password-process', [ForgotPasswordController::class, 
     Route::get('product/paginate-limit', [ProductController::class, 'getLimit'])->name('admin.product.limit');
     Route::get('/product/search', [ProductController::class, 'search'])->name('admin.product.search');
     Route::delete('product/delete/{product}', [ProductController::class, 'destroy'])->name('admin.product.destroy');
+    Route::get('/admin/product/export/csv', [ProductController::class, 'exportCSV'])->name('admin.product.export.csv');
 
 
 // Order
@@ -68,6 +69,7 @@ Route::post('/admin-change-password-process', [ForgotPasswordController::class, 
     Route::get('/order/search', [OrderController::class, 'search'])->name('admin.order.search');
     Route::delete('order/delete/{category}', [OrderController::class, 'destroy'])->name('admin.order.destroy');
     Route::get('/order/{order}/view', [OrderController::class, 'view'])->name('admin.order.view');
+    Route::get('/generate-receipt/{orderId}', [OrderController::class, 'generateReceipt'])->name('generate.receipt');
 
 // Logout
     Route::any('/logout', [LoginController::class, 'logout'])->name('logout');

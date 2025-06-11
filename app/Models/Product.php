@@ -10,13 +10,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Product extends Model
 {
     use HasFactory;
-
+    public $timestamps = false;
     protected $table = 'product';
-    protected $primaryKey = 'id_product';
+    protected $primaryKey = 'ID_PRODUCT';
+    public $incrementing = true;
+    protected $keyType = 'int';
     protected $fillable = [
         'name_product',
         'price',
-        'quantity',
+        'quality',
         'description',
         'id_category',
         'image_url',
@@ -26,11 +28,11 @@ class Product extends Model
 
     public function orderDetails()
     {
-        return $this->hasMany(OrderDetail::class, 'product_id', 'id');
+        return $this->hasMany(OrderDetail::class, 'product_id', 'id_product');
     }
     public function category(): BelongsTo
     {
-        return $this->belongsTo(Category::class, 'category_id', 'id');
+        return $this->belongsTo(Category::class, 'ID', 'id_category');
     }
 
     public function brand()
@@ -39,11 +41,11 @@ class Product extends Model
     }
     public function productImage()
     {
-        return $this->hasMany(ProductImage::class, 'product_id', 'id');
+        return $this->hasMany(ProductImage::class, 'product_id', 'id_category');
     }
     public function reviews()
     {
-        return $this->hasMany(Review::class, 'product_id', 'id');
+        return $this->hasMany(Review::class, 'id_product', 'id_product');
     }
 
 }

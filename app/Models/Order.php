@@ -10,8 +10,11 @@ class Order extends Model
 {
     /** @use HasFactory<\Database\Factories\OrderFactory> */
     use HasFactory;
-
+    public $timestamps = false;
     protected $table = 'invoice';
+    protected $primaryKey = 'id';
+    public $incrementing = true;
+    protected $keyType = 'int';
     protected $fillable = [
         'id',
         'delivery_status',
@@ -21,7 +24,7 @@ class Order extends Model
     ];
     public function user()
     {
-        return $this->belongsTo(Customer::class, 'username', 'username');
+        return $this->belongsTo(Customer::class, 'USERNAME', 'username');
     }
 
     public function details()
